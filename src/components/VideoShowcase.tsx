@@ -51,7 +51,7 @@ const VideoShowcase = () => {
         >
           <div className="flex items-center gap-2">
             <Play className="h-6 w-6 text-maroon-600 dark:text-maroon-400" />
-            <h2 className="text-2xl font-bold">CIT Documentation videos</h2>
+            <h2 className="text-2xl font-bold">CIT videos</h2>
           </div>
           <a
             href="https://youtube.com"
@@ -60,7 +60,7 @@ const VideoShowcase = () => {
             className="flex items-center gap-2 bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-md transition-colors"
           >
             <Youtube className="h-5 w-5" />
-            Follow us on YouTube
+            Follow us
           </a>
         </motion.div>
 
