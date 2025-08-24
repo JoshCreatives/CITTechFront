@@ -145,7 +145,7 @@ export default function FacultyAchievements() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-center mb-10 bg-gradient-to-r from-maroon-600 via-maroon-600 to-maroon-600 dark:from-maroon-800 dark:via-gray-900 dark:to-gray-900 py-12 px-6 rounded-xl shadow-xl dark:shadow-gray-800/20"
+          className="text-center mb-10 bg-gradient-to-r from-maroon-900 via-maroon-600 to-maroon-600 dark:from-maroon-800 dark:via-gray-900 dark:to-gray-900 py-12 px-6 rounded-xl shadow-xl dark:shadow-gray-800/20"
         >
           <motion.h1 
             initial={{ scale: 0.95 }}

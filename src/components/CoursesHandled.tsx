@@ -289,7 +289,7 @@ export default function CoursesHandled() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8 md:mb-12 bg-gradient-to-r from-maroon-600 via-maroon-600 to-maroon-600 dark:from-maroon-800 dark:via-gray-900 dark:to-gray-900 py-8 md:py-10 px-4 md:px-6 rounded-xl shadow-lg dark:shadow-gray-800/20"
+          className="text-center mb-8 md:mb-12 bg-gradient-to-r from-maroon-900 via-maroon-600 to-maroon-600 dark:from-maroon-800 dark:via-gray-900 dark:to-gray-900 py-8 md:py-10 px-4 md:px-6 rounded-xl shadow-lg dark:shadow-gray-800/20"
         >
           <motion.h1 
             initial={{ scale: 0.95 }}
