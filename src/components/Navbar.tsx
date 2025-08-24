@@ -310,82 +310,87 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
           )}
         </AnimatePresence>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              className="md:hidden bg-white dark:bg-gray-800"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-            >
-              <div className="px-4 py-3 space-y-2">
-                {navItems.map((item) => (
-                  <div key={item.title} className="mb-1">
-                    {item.dropdownItems ? (
-                      <div>
-                        <button
-                          className={`w-full flex justify-between items-center px-3 py-2 text-sm font-semibold transition-colors rounded-md ${
+{/* Mobile Menu */}
+<AnimatePresence>
+  {isMobileMenuOpen && (
+    <motion.div
+      className="md:hidden bg-white dark:bg-gray-800"
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: 'auto' }}
+      exit={{ opacity: 0, height: 0 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+    >
+      <div className="px-4 py-3 space-y-0"> {/* Changed space-y-2 to space-y-0 */}
+        {navItems.map((item, index) => (
+          <div key={item.title} className="mb-0"> {/* Changed mb-1 to mb-0 */}
+            {item.dropdownItems ? (
+              <div>
+                <button
+                  className={`w-full flex justify-between items-center px-3 py-4 text-sm font-semibold transition-colors rounded-md ${
+                    theme === 'light'
+                      ? 'text-black hover:bg-maroon-600 hover:text-white'
+                      : 'text-white hover:bg-gray-900'
+                  }`}
+                  onClick={() => toggleMobileDropdown(item.title)}
+                >
+                  {item.title}
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${
+                      mobileActiveDropdown === item.title ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {mobileActiveDropdown === item.title && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="ml-4 mt-1 space-y-1"
+                    >
+                      {item.dropdownItems.map((dropdownItem) => (
+                        <a
+                          key={dropdownItem.title}
+                          href={dropdownItem.path}
+                          className={`block px-3 py-2 text-sm font-medium transition-colors rounded-md ${
                             theme === 'light'
                               ? 'text-black hover:bg-maroon-600 hover:text-white'
                               : 'text-white hover:bg-gray-900'
                           }`}
-                          onClick={() => toggleMobileDropdown(item.title)}
+                          onClick={() => setIsMobileMenuOpen(false)}
                         >
-                          {item.title}
-                          <ChevronDown
-                            className={`h-4 w-4 transition-transform ${
-                              mobileActiveDropdown === item.title ? 'rotate-180' : ''
-                            }`}
-                          />
-                        </button>
-                        <AnimatePresence>
-                          {mobileActiveDropdown === item.title && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.2 }}
-                              className="ml-4 mt-1 space-y-1"
-                            >
-                              {item.dropdownItems.map((dropdownItem) => (
-                                <a
-                                  key={dropdownItem.title}
-                                  href={dropdownItem.path}
-                                  className={`block px-3 py-2 text-sm font-medium transition-colors rounded-md ${
-                                    theme === 'light'
-                                      ? 'text-black hover:bg-maroon-600 hover:text-white'
-                                      : 'text-white hover:bg-gray-900'
-                                  }`}
-                                  onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                  {dropdownItem.title}
-                                </a>
-                              ))}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    ) : (
-                      <a
-                        href={item.path}
-                        className={`block px-3 py-2 text-sm font-semibold transition-colors rounded-md ${
-                          theme === 'light'
-                            ? 'text-black hover:bg-maroon-600 hover:text-white'
-                            : 'text-white hover:bg-gray-900'
-                        }`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {item.title}
-                      </a>
-                    )}
-                  </div>
-                ))}
+                          {dropdownItem.title}
+                        </a>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            ) : (
+              <a
+                href={item.path}
+                className={`block px-3 py-4 text-sm font-semibold transition-colors rounded-md ${
+                  theme === 'light'
+                    ? 'text-black hover:bg-maroon-600 hover:text-white'
+                    : 'text-white hover:bg-gray-900'
+                }`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item.title}
+              </a>
+            )}
+            
+            {/* Add divider line after each item except the last one */}
+            {index < navItems.length - 1 && (
+              <hr className={`my-1 ${theme === 'light' ? 'border-gray-200' : 'border-gray-700/50'}`} />
+            )}
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
       </div>
     </motion.nav>
   );
