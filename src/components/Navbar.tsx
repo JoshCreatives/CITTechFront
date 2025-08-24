@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Menu, X, Search, Sun, Moon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface NavItem {
   title: string;
@@ -152,6 +153,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
           <div className="flex items-center">
             <div className="relative flex items-center">
               <div className="bg-maroon-700 rounded-lg flex items-center justify-center w-16 h-16 relative overflow-visible">
+                <Link to="/">
                 <img
                   src="/HeroAko.png"
                   alt="SIIT Logo"
@@ -162,6 +164,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                     zIndex: 20,
                   }}
                 />
+              </Link>
               </div>
               {/* Added ml-6 (1.5rem) spacing between logo and text */}
               <a
