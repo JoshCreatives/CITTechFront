@@ -110,7 +110,7 @@ export default function FacultyDirectory() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="w-full px-4 md:px-6 lg:px-8 mb-12"
       >
-        <div className="bg-gradient-to-r from-maroon-600 via-maroon-600 to-maroon-600 dark:from-maroon-700 dark:via-gray-900 dark:to-gray-900 rounded-2xl shadow-xl px-6 py-12 max-w-7xl mx-auto text-center">
+        <div className="bg-gradient-to-r from-maroon-900 via-maroon-600 to-maroon-600 dark:from-maroon-700 dark:via-gray-900 dark:to-gray-900 rounded-2xl shadow-xl px-6 py-12 max-w-7xl mx-auto text-center">
           <motion.h1 
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}

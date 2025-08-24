@@ -152,17 +152,12 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
           {/* Logo and Title with proper spacing */}
           <div className="flex items-center">
             <div className="relative flex items-center">
-              <div className="bg-maroon-700 rounded-lg flex items-center justify-center w-16 h-16 relative overflow-visible">
+              <div className="bg-maroon-700 rounded-lg flex items-center justify-center w-16 h-16 overflow-hidden">
                 <Link to="/">
                   <img
                     src="/HeroAko.png"
                     alt="SIIT Logo"
-                    className="h-20 w-20 object-contain absolute left-1/2"
-                    style={{
-                      bottom: "-20px",
-                      transform: "translateX(-50%)",
-                      zIndex: 20,
-                    }}
+                    className="h-14 w-14 object-contain"
                   />
                 </Link>
               </div>
