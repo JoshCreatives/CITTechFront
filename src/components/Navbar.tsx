@@ -208,7 +208,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                       className={`absolute z-50 left-0 mt-2 w-56 rounded-md shadow-lg py-1 border ${
                         theme === 'light'
                           ? 'bg-white border-gray-200'
-                          : 'bg-gray-700 border-gray-600'
+                          : 'bg-gray-900 border-gray-800'
                       }`}
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -222,7 +222,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                           className={`block px-4 py-2 text-sm font-medium transition-colors ${
                             theme === 'light'
                               ? 'text-black hover:bg-maroon-600 hover:text-white'
-                              : 'text-white hover:bg-gray-600'
+                              : 'text-white hover:bg-gray-900'
                           }`}
                         >
                           {dropdownItem.title}
@@ -275,7 +275,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
         <AnimatePresence>
           {showSearch && (
             <motion.div
-              className="search-container absolute right-4 md:right-8 top-16 z-50 bg-white dark:bg-gray-700 bg-opacity-95 dark:bg-opacity-95 backdrop-blur-md rounded-lg shadow-lg p-4 w-[calc(100%-2rem)] md:w-80 border border-gray-200 dark:border-gray-600"
+              className="search-container absolute right-4 md:right-8 top-16 z-50 bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 backdrop-blur-md rounded-lg shadow-lg p-4 w-[calc(100%-2rem)] md:w-80 border border-gray-200 dark:border-gray-800"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -286,7 +286,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                 placeholder="Search events and details..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-maroon-500 dark:focus:ring-maroon-600 focus:border-transparent text-black dark:text-white dark:bg-gray-700 mb-2"
+                className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-maroon-500 dark:focus:ring-maroon-600 focus:border-transparent text-black dark:text-white dark:bg-gray-800 mb-2"
                 autoFocus
               />
               <div className="max-h-60 overflow-y-auto">
@@ -299,7 +299,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                     <a
                       key={item.title}
                       href={item.path}
-                      className="block px-3 py-2 rounded hover:bg-maroon-600 dark:hover:bg-gray-600 hover:text-white text-black dark:text-white text-sm"
+                      className="block px-3 py-2 rounded hover:bg-maroon-600 dark:hover:bg-gray-800 hover:text-white text-black dark:text-white text-sm"
                     >
                       {item.title}
                     </a>
@@ -314,7 +314,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              className="md:hidden bg-white dark:bg-gray-700"
+              className="md:hidden bg-white dark:bg-gray-800"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
@@ -329,7 +329,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                           className={`w-full flex justify-between items-center px-3 py-2 text-sm font-semibold transition-colors rounded-md ${
                             theme === 'light'
                               ? 'text-black hover:bg-maroon-600 hover:text-white'
-                              : 'text-white hover:bg-gray-600'
+                              : 'text-white hover:bg-gray-900'
                           }`}
                           onClick={() => toggleMobileDropdown(item.title)}
                         >
@@ -356,7 +356,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                                   className={`block px-3 py-2 text-sm font-medium transition-colors rounded-md ${
                                     theme === 'light'
                                       ? 'text-black hover:bg-maroon-600 hover:text-white'
-                                      : 'text-white hover:bg-gray-600'
+                                      : 'text-white hover:bg-gray-900'
                                   }`}
                                   onClick={() => setIsMobileMenuOpen(false)}
                                 >
@@ -373,7 +373,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                         className={`block px-3 py-2 text-sm font-semibold transition-colors rounded-md ${
                           theme === 'light'
                             ? 'text-black hover:bg-maroon-600 hover:text-white'
-                            : 'text-white hover:bg-gray-600'
+                            : 'text-white hover:bg-gray-900'
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
