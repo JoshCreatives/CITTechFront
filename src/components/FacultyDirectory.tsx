@@ -110,12 +110,12 @@ export default function FacultyDirectory() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="w-full px-4 md:px-6 lg:px-8 mb-12"
       >
-        <div className="bg-gradient-to-r from-maroon-600 via-gray-100 to-gray-100 dark:from-maroon-700 dark:via-gray-900 dark:to-gray-900 rounded-2xl shadow-xl px-6 py-12 max-w-7xl mx-auto text-center">
+        <div className="bg-gradient-to-r from-maroon-600 via-maroon-600 to-maroon-600 dark:from-maroon-700 dark:via-gray-900 dark:to-gray-900 rounded-2xl shadow-xl px-6 py-12 max-w-7xl mx-auto text-center">
           <motion.h1 
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-4xl font-bold text-gray-900 dark:text-white mb-4"
+            className="text-4xl font-bold text-white dark:text-white mb-4"
           >
             Faculty Directory
           </motion.h1>
@@ -123,7 +123,7 @@ export default function FacultyDirectory() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.8 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-lg text-black dark:text-gray-300 max-w-3xl mx-auto"
+            className="text-lg text-white dark:text-gray-300 max-w-3xl mx-auto"
           >
             Meet our distinguished faculty members who bring expertise, innovation, and dedication to technology education.
           </motion.p>

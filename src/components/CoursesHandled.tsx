@@ -289,13 +289,13 @@ export default function CoursesHandled() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12 bg-gradient-to-r from-maroon-600 via-gray-50 to-gray-50 dark:from-maroon-800 dark:via-gray-900 dark:to-gray-900 py-10 px-4 rounded-xl shadow-lg dark:shadow-gray-800/20"
+          className="text-center mb-12 bg-gradient-to-r from-maroon-600 via-maroon-600 to-maroon-600 dark:from-maroon-800 dark:via-gray-900 dark:to-gray-900 py-10 px-4 rounded-xl shadow-lg dark:shadow-gray-800/20"
         >
           <motion.h1 
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-4xl font-bold text-gray-900 dark:text-white mb-4"
+            className="text-4xl font-bold text-white dark:text-white mb-4"
           >
             Courses Handled by Faculty
           </motion.h1>
@@ -303,7 +303,7 @@ export default function CoursesHandled() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.9 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-xl text-black dark:text-gray-300 max-w-3xl mx-auto"
+            className="text-xl text-white dark:text-gray-300 max-w-3xl mx-auto"
           >
             Comprehensive overview of courses taught by our distinguished faculty members across 
             undergraduate and graduate programs.

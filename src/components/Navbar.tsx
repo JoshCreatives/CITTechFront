@@ -123,11 +123,11 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
 
   return (
     <motion.nav
-      className={`transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isSticky
           ? theme === 'light'
-            ? 'sticky top-0 z-50 bg-white text-black shadow-md'
-            : 'sticky top-0 z-50 bg-gray-800 text-white shadow-md'
+            ? 'bg-white text-black shadow-md'
+            : 'bg-gray-800 text-white shadow-md'
           : theme === 'light'
             ? 'bg-white text-black'
             : 'bg-gray-800 text-white'
@@ -154,17 +154,17 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
             <div className="relative flex items-center">
               <div className="bg-maroon-700 rounded-lg flex items-center justify-center w-16 h-16 relative overflow-visible">
                 <Link to="/">
-                <img
-                  src="/HeroAko.png"
-                  alt="SIIT Logo"
-                  className="h-20 w-20 object-contain absolute left-1/2"
-                  style={{
-                    bottom: "-20px",
-                    transform: "translateX(-50%)",
-                    zIndex: 20,
-                  }}
-                />
-              </Link>
+                  <img
+                    src="/HeroAko.png"
+                    alt="SIIT Logo"
+                    className="h-20 w-20 object-contain absolute left-1/2"
+                    style={{
+                      bottom: "-20px",
+                      transform: "translateX(-50%)",
+                      zIndex: 20,
+                    }}
+                  />
+                </Link>
               </div>
               {/* Added ml-6 (1.5rem) spacing between logo and text */}
               <a

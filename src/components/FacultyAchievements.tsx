@@ -145,13 +145,13 @@ export default function FacultyAchievements() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-center mb-10 bg-gradient-to-r from-maroon-600 via-gray-50 to-gray-50 dark:from-maroon-800 dark:via-gray-900 dark:to-gray-900 py-12 px-6 rounded-xl shadow-xl dark:shadow-gray-800/20"
+          className="text-center mb-10 bg-gradient-to-r from-maroon-600 via-maroon-600 to-maroon-600 dark:from-maroon-800 dark:via-gray-900 dark:to-gray-900 py-12 px-6 rounded-xl shadow-xl dark:shadow-gray-800/20"
         >
           <motion.h1 
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+            className="text-4xl md:text-5xl font-bold text-white dark:text-white mb-4"
           >
             Faculty Achievements
           </motion.h1>
@@ -159,7 +159,7 @@ export default function FacultyAchievements() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.9 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto"
+            className="text-lg md:text-xl text-white dark:text-gray-300 max-w-3xl mx-auto"
           >
             Celebrating the outstanding accomplishments of our faculty members in research, teaching, 
             service, and industry collaboration.
