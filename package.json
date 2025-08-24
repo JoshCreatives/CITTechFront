@@ -24,6 +24,7 @@
     "express-rate-limit": "^8.0.1",
     "framer-motion": "^12.6.3",
     "googleapis": "^156.0.0",
+    "jspdf": "^3.0.1",
     "juice": "^11.0.1",
     "lucide-react": "^0.344.0",
     "moment": "^2.30.1",
