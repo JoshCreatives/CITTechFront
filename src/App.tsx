@@ -154,7 +154,7 @@ function App() {
 
   if (isLoading || showAnimation) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-white transition-colors duration-300 z-[9999]">
+      <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-white transition-colors duration-300 z-[9999] overflow-hidden">
         <div className="flex flex-col items-center justify-center w-full h-full">
           <video
             src="/CIT LOGO ANIMATION.mp4" // Ensure this path is correct
@@ -172,14 +172,14 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 overflow-x-hidden">
       <Navbar theme={theme} toggleTheme={toggleTheme} />
-      <main className="pt-16">
+      <main className="pt-16 w-full">
         {renderContent()}
       </main>
       <Footer />
-      <footer className={`py-8 ${theme === 'dark' ? 'bg-gray-800' : 'bg-maroon-800'}`}>
-        <div className="max-w-7xl mx-auto px-4 text-center text-gray-300">
+      <footer className={`py-8 ${theme === 'dark' ? 'bg-gray-800' : 'bg-maroon-800'} w-full`}>
+        <div className="max-w-7xl mx-auto px-4 text-center text-gray-300 w-full">
           <p>© {new Date().getFullYear()} SIIT. All rights reserved.</p>
         </div>
       </footer>
