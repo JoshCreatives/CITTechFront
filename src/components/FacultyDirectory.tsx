@@ -151,7 +151,7 @@ export default function FacultyDirectory() {
               boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
             }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-700/50 overflow-hidden border border-gray-200 dark:border-gray-700 mb-8 min-h-[500px]"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900 overflow-hidden border border-gray-200 dark:border-gray-700 mb-8 min-h-[500px]"
           >
             <div className="p-0 h-full flex flex-col">
               <motion.div 
@@ -199,7 +199,7 @@ export default function FacultyDirectory() {
                     className="flex items-center text-sm text-gray-600 dark:text-gray-300"
                   >
                     <Mail className="h-5 w-5 mr-2 text-maroon-600 dark:text-maroon-500" />
-                    <a href={`mailto:${dean.email}`} className="hover:text-maroon-500 dark:hover:text-maroon-300 transition-colors text-lg">
+                    <a href={`mailto:${dean.email}`} className="hover:text-maroon-500 dark:hover:text-maroon-500 transition-colors text-lg">
                       {dean.email}
                     </a>
                   </motion.div>
@@ -280,7 +280,7 @@ export default function FacultyDirectory() {
                 boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
               }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-700/50 overflow-hidden border border-gray-200 dark:border-gray-700 min-h-[400px]"
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900 overflow-hidden border border-gray-200 dark:border-gray-700 min-h-[400px]"
             >
               <div className="p-0 h-full flex flex-col">
                 <motion.div 
@@ -328,7 +328,7 @@ export default function FacultyDirectory() {
                       className="flex items-center text-sm text-gray-600 dark:text-gray-300"
                     >
                       <Mail className="h-4 w-4 mr-2 text-maroon-600 dark:text-maroon-500" />
-                      <a href={`mailto:${faculty.email}`} className="hover:text-maroon-500 dark:hover:text-maroon-300 transition-colors">
+                      <a href={`mailto:${faculty.email}`} className="hover:text-maroon-500 dark:hover:text-maroon-500 transition-colors">
                         {faculty.email}
                       </a>
                     </motion.div>

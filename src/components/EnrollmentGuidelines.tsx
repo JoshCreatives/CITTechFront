@@ -486,7 +486,7 @@ const OnlineApplication = () => {
       >
         <div className="bg-maroon-50 dark:bg-maroon-900 border-l-4 border-maroon-600 p-6 rounded-r-lg">
           <div className="flex">
-            <AlertCircle className="h-6 w-6 text-maroon-600 dark:text-maroon-400 mr-3" />
+            <AlertCircle className="h-6 w-6 text-maroon-600 dark:text-white mr-3" />
             <div>
               <h4 className="text-lg font-semibold text-maroon-900 dark:text-white mb-2">
                 CIT Enrollment Guidelines
@@ -574,7 +574,7 @@ const OnlineApplication = () => {
             whileHover={{ x: 3 }}
             className="flex items-center"
           >
-            <Mail className="h-6 w-6 text-maroon-600 dark:text-maroon-400 mr-4" />
+            <Mail className="h-6 w-6 text-maroon-600 dark:text-white mr-4" />
             <div>
               <h4 className="font-medium text-gray-900 dark:text-white">Email</h4>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
@@ -586,7 +586,7 @@ const OnlineApplication = () => {
             whileHover={{ x: 3 }}
             className="flex items-center"
           >
-            <Phone className="h-6 w-6 text-maroon-600 dark:text-maroon-400 mr-4" />
+            <Phone className="h-6 w-6 text-maroon-600 dark:text-white mr-4" />
             <div>
               <h4 className="font-medium text-gray-900 dark:text-white">Phone</h4>
               <p className="text-gray-600 dark:text-gray-400 text-sm">(02) 1234-5678</p>

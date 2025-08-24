@@ -30,7 +30,7 @@ interface FacultyCourses {
 }
 
 const facultyCoursesData: FacultyCourses[] = [
-   {
+  {
     facultyName: "Junry T. Valezuela, MIT",
     title: "Dean & Professor",
     department: "Computer Science",
@@ -282,20 +282,20 @@ export default function CoursesHandled() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 md:py-12 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with maroon gradient background */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12 bg-gradient-to-r from-maroon-600 via-maroon-600 to-maroon-600 dark:from-maroon-800 dark:via-gray-900 dark:to-gray-900 py-10 px-4 rounded-xl shadow-lg dark:shadow-gray-800/20"
+          className="text-center mb-8 md:mb-12 bg-gradient-to-r from-maroon-600 via-maroon-600 to-maroon-600 dark:from-maroon-800 dark:via-gray-900 dark:to-gray-900 py-8 md:py-10 px-4 md:px-6 rounded-xl shadow-lg dark:shadow-gray-800/20"
         >
           <motion.h1 
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-4xl font-bold text-white dark:text-white mb-4"
+            className="text-2xl md:text-4xl font-bold text-white dark:text-white mb-3 md:mb-4"
           >
             Courses Handled by Faculty
           </motion.h1>
@@ -303,7 +303,7 @@ export default function CoursesHandled() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.9 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-xl text-white dark:text-gray-300 max-w-3xl mx-auto"
+            className="text-base md:text-xl text-white dark:text-gray-300 max-w-3xl mx-auto"
           >
             Comprehensive overview of courses taught by our distinguished faculty members across 
             undergraduate and graduate programs.
@@ -315,14 +315,14 @@ export default function CoursesHandled() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="flex flex-wrap gap-4 mb-8 justify-center"
+          className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-6 md:mb-8 justify-center"
         >
           <motion.select
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             value={selectedFaculty}
             onChange={(e) => setSelectedFaculty(e.target.value)}
-            className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-maroon-600 dark:focus:ring-maroon-600 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm"
+            className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-maroon-600 dark:focus:ring-maroon-600 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm text-sm md:text-base"
           >
             <option value="all">All Faculty</option>
             {facultyCoursesData.map(faculty => (
@@ -337,7 +337,7 @@ export default function CoursesHandled() {
             whileTap={{ scale: 0.98 }}
             value={selectedLevel}
             onChange={(e) => setSelectedLevel(e.target.value)}
-            className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-maroon-600 dark:focus:ring-maroon-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm"
+            className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-maroon-600 dark:focus:ring-maroon-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm text-sm md:text-base"
           >
             <option value="all">All Levels</option>
             <option value="Undergraduate">Undergraduate</option>
@@ -359,7 +359,7 @@ export default function CoursesHandled() {
                 ease: [0.16, 1, 0.3, 1] 
               } 
             } : {}}
-            className="mb-12"
+            className="mb-8 md:mb-12"
           >
             <motion.div
               whileHover={{ 
@@ -367,38 +367,38 @@ export default function CoursesHandled() {
                 boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
               }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6 border border-gray-200 dark:border-gray-700"
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 md:p-6 mb-6 border border-gray-200 dark:border-gray-700"
             >
-              <div className="flex items-center mb-6">
+              <div className="flex flex-col sm:flex-row items-center mb-6">
                 <motion.img
                   initial={{ scale: 0.9 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: index * 0.15 + 0.3 }}
                   src={faculty.image}
                   alt={faculty.facultyName}
-                  className="w-20 h-20 rounded-full object-cover mr-6 border-4 border-maroon-600 dark:border-maroon-500"
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover mb-4 sm:mb-0 sm:mr-6 border-4 border-maroon-600 dark:border-maroon-500"
                 />
-                <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{faculty.facultyName}</h2>
-                  <p className="text-gray-800 dark:text-gray-200 font-medium text-lg">{faculty.title}</p>
-                  <p className="text-gray-600 dark:text-gray-300">{faculty.department}</p>
+                <div className="flex-1 text-center sm:text-left mb-4 sm:mb-0">
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{faculty.facultyName}</h2>
+                  <p className="text-gray-800 dark:text-gray-200 font-medium text-base md:text-lg">{faculty.title}</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base">{faculty.department}</p>
                 </div>
-                <div className="text-right">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-gray-900 dark:text-white">{faculty.totalCourses}</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-300">Courses</div>
+                <div className="w-full sm:w-auto">
+                  <div className="grid grid-cols-2 gap-3 md:gap-4">
+                    <div className="text-center bg-gray-100 dark:bg-gray-700 p-2 md:p-3 rounded-lg">
+                      <div className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">{faculty.totalCourses}</div>
+                      <div className="text-xs md:text-sm text-gray-500 dark:text-gray-300">Courses</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-maroon-600 dark:text-maroon-400">{faculty.totalStudents}</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-300">Students</div>
+                    <div className="text-center bg-maroon-100 dark:bg-maroon-900 p-2 md:p-3 rounded-lg">
+                      <div className="text-lg md:text-2xl font-bold text-maroon-600 dark:text-white">{faculty.totalStudents}</div>
+                      <div className="text-xs md:text-sm text-maroon-600 dark:text-white">Students</div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Courses Grid */}
-              <div className="grid lg:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-4 md:gap-6">
                 {faculty.courses
                   .filter(course => selectedLevel === 'all' || course.level === selectedLevel)
                   .map((course, courseIndex) => {
@@ -410,39 +410,39 @@ export default function CoursesHandled() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.15 + courseIndex * 0.1 }}
                         whileHover={{ scale: 1.02 }}
-                        className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-gray-900 hover:shadow-md transition-shadow duration-200 hover:border-maroon-400 dark:hover:border-maroon-500"
+                        className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 md:p-6 bg-white dark:bg-gray-900 hover:shadow-md transition-shadow duration-200 hover:border-maroon-400 dark:hover:border-maroon-500"
                       >
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex items-center">
-                            <div className="w-10 h-10 bg-maroon-900 rounded-lg flex items-center justify-center mr-3">
-                              <IconComponent className="h-5 w-5 text-white" />
+                        <div className="flex flex-col sm:flex-row items-start justify-between mb-4">
+                          <div className="flex items-center mb-2 sm:mb-0">
+                            <div className="w-8 h-8 md:w-10 md:h-10 bg-maroon-900 rounded-lg flex items-center justify-center mr-3">
+                              <IconComponent className="h-4 w-4 md:h-5 md:w-5 text-white" />
                             </div>
                             <div>
-                              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{course.name}</h3>
-                              <p className="text-gray-600 dark:text-gray-300">{course.code} • {course.credits} Credits</p>
+                              <h3 className="text-base md:text-lg font-semibold text-gray-900 dark:text-white">{course.name}</h3>
+                              <p className="text-xs md:text-sm text-gray-600 dark:text-gray-300">{course.code} • {course.credits} Credits</p>
                             </div>
                           </div>
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${levelColors[course.level]}`}>
+                          <span className={`px-2 py-1 md:px-3 md:py-1 rounded-full text-xs md:text-sm font-medium ${levelColors[course.level]}`}>
                             {course.level}
                           </span>
                         </div>
 
-                        <p className="text-gray-600 dark:text-gray-300 mb-4">{course.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{course.description}</p>
 
-                        <div className="grid grid-cols-2 gap-4 mb-4">
-                          <div className="flex items-center text-sm text-gray-800 dark:text-white">
-                            <Calendar className="h-4 w-4 mr-2 text-maroon-600 dark:text-maroon-400" />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-4">
+                          <div className="flex items-center text-xs md:text-sm text-gray-800 dark:text-white">
+                            <Calendar className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-maroon-600 dark:text-maroon-400" />
                             {course.semester}
                           </div>
-                          <div className="flex items-center text-sm text-gray-800 dark:text-white">
-                            <Clock className="h-4 w-4 mr-2 text-maroon-600 dark:text-maroon-400" />
+                          <div className="flex items-center text-xs md:text-sm text-gray-800 dark:text-white">
+                            <Clock className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-maroon-600 dark:text-maroon-400" />
                             {course.schedule}
                           </div>
-                          <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                            <Users className="h-4 w-4 mr-2 text-maroon-600 dark:text-maroon-400" />
+                          <div className="flex items-center text-xs md:text-sm text-gray-600 dark:text-gray-300">
+                            <Users className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 text-maroon-600 dark:text-maroon-400" />
                             {course.enrolledStudents}/{course.maxCapacity} Students
                           </div>
-                          <div className="flex items-center text-sm">
+                          <div className="flex items-center text-xs md:text-sm">
                             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mr-2">
                               <div 
                                 className="bg-maroon-600 h-2 rounded-full" 
@@ -457,8 +457,8 @@ export default function CoursesHandled() {
 
                         {course.prerequisites.length > 0 && (
                           <div className="mb-4">
-                            <h4 className="font-medium text-gray-900 dark:text-white mb-2">Prerequisites:</h4>
-                            <div className="flex flex-wrap gap-2">
+                            <h4 className="font-medium text-gray-900 dark:text-white mb-2 text-sm md:text-base">Prerequisites:</h4>
+                            <div className="flex flex-wrap gap-1 md:gap-2">
                               {course.prerequisites.map((prereq, prereqIndex) => (
                                 <motion.span
                                   key={prereqIndex}
@@ -473,7 +473,7 @@ export default function CoursesHandled() {
                         )}
 
                         <div>
-                          <h4 className="font-medium text-gray-900 dark:text-white mb-2">Learning Outcomes:</h4>
+                          <h4 className="font-medium text-gray-900 dark:text-white mb-2 text-sm md:text-base">Learning Outcomes:</h4>
                           <ul className="space-y-1">
                             {course.learningOutcomes.slice(0, 2).map((outcome, outcomeIndex) => (
                               <motion.li 
@@ -481,14 +481,14 @@ export default function CoursesHandled() {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: index * 0.15 + courseIndex * 0.1 + outcomeIndex * 0.05 }}
-                                className="text-sm text-gray-600 dark:text-gray-300 flex items-start"
+                                className="text-xs md:text-sm text-gray-600 dark:text-gray-300 flex items-start"
                               >
                                 <span className="text-maroon-600 dark:text-maroon-400 mr-2">•</span>
                                 {outcome}
                               </motion.li>
                             ))}
                             {course.learningOutcomes.length > 2 && (
-                              <li className="text-sm text-gray-500 dark:text-gray-400 italic">
+                              <li className="text-xs md:text-sm text-gray-500 dark:text-gray-400 italic">
                                 +{course.learningOutcomes.length - 2} more outcomes...
                               </li>
                             )}
@@ -507,10 +507,10 @@ export default function CoursesHandled() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, type: "spring" }}
-          className="bg-gradient-to-r from-maroon-600 via-maroon-700 to-maroon-800 dark:from-maroon-800 dark:via-maroon-900 dark:to-gray-900 rounded-xl p-8 text-white shadow-xl"
+          className="bg-gradient-to-r from-maroon-600 via-maroon-700 to-maroon-800 dark:from-maroon-800 dark:via-maroon-900 dark:to-gray-900 rounded-xl p-6 md:p-8 text-white shadow-xl"
         >
-          <h2 className="text-2xl font-bold mb-6 text-center">Course Statistics</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Course Statistics</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {[
               {
                 value: facultyCoursesData.reduce((sum, faculty) => sum + faculty.totalCourses, 0),
@@ -536,12 +536,12 @@ export default function CoursesHandled() {
               <motion.div
                 key={statIndex}
                 whileHover={{ scale: 1.05 }}
-                className="text-center bg-white/10 dark:bg-black/20 rounded-lg p-4 backdrop-blur-sm"
+                className="text-center bg-white/10 dark:bg-black/20 rounded-lg p-3 md:p-4 backdrop-blur-sm"
               >
-                <div className="text-3xl font-bold mb-2">
+                <div className="text-xl md:text-3xl font-bold mb-1 md:mb-2">
                   {stat.value}
                 </div>
-                <div className="text-maroon-200">{stat.label}</div>
+                <div className="text-xs md:text-sm text-maroon-200">{stat.label}</div>
               </motion.div>
             ))}
           </div>

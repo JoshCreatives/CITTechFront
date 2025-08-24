@@ -106,7 +106,7 @@ const CampusLife = () => {
                   href="#organizations"
                   className="bg-maroon-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-maroon-700 dark:hover:bg-maroon-800 transition-colors"
                 >
-                  Join Organizations
+                  See Organizations
                 </motion.a>
                 <motion.a
                   whileHover={{ scale: 1.05 }}
@@ -178,7 +178,7 @@ const CampusLife = () => {
               viewport={{ once: true }}
               className="mb-16"
             >
-              <h2 className="text-3xl font-bold mb-8 text-maroon-600 dark:text-maroon-500">
+              <h2 className="text-3xl font-bold mb-8 text-maroon-600 dark:text-white">
                 {section.category}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
