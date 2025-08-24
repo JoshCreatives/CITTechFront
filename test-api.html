@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        button { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+        input { padding: 8px; margin: 5px; border: 1px solid #ccc; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>API Connection Test</h1>
+    
+    <div class="test-section">
+        <h3>Test Email Verification</h3>
+        <input type="email" id="testEmail" placeholder="Enter test email" value="test@example.com">
+        <button onclick="testSendVerification()">Test Send Verification</button>
+        <div id="sendResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test Code Verification</h3>
+        <input type="text" id="testCode" placeholder="Enter test code" value="123456">
+        <button onclick="testVerifyCode()">Test Verify Code</button>
+        <div id="verifyResult" class="result"></div>
+    </div>
+
+    <script>
+        async function testSendVerification() {
+            const email = document.getElementById('testEmail').value;
+            const resultDiv = document.getElementById('sendResult');
+            
+            try {
+                resultDiv.innerHTML = 'Sending request...';
+                
+                const response = await fetch('/api/send-verification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<strong>Success!</strong> Response: ${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultDiv.innerHTML = `<strong>Error ${response.status}:</strong> ${data.error}`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<strong>Network Error:</strong> ${error.message}`;
+            }
+        }
+
+        async function testVerifyCode() {
+            const email = document.getElementById('testEmail').value;
+            const code = document.getElementById('testCode').value;
+            const resultDiv = document.getElementById('verifyResult');
+            
+            try {
+                resultDiv.innerHTML = 'Sending request...';
+                
+                const response = await fetch('/api/verify-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, code })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<strong>Success!</strong> Response: ${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultDiv.innerHTML = `<strong>Error ${response.status}:</strong> ${data.error}`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<strong>Network Error:</strong> ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
+
