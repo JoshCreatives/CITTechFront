@@ -286,7 +286,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                 placeholder="Search events and details..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-maroon-500 dark:focus:ring-maroon-400 focus:border-transparent text-black dark:text-white dark:bg-gray-700 mb-2"
+                className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-maroon-500 dark:focus:ring-maroon-600 focus:border-transparent text-black dark:text-white dark:bg-gray-700 mb-2"
                 autoFocus
               />
               <div className="max-h-60 overflow-y-auto">
