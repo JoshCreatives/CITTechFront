@@ -88,9 +88,9 @@ const CITHistory = () => {
 
   const leaders = [
     {
-      name: "Dr. Maria Cristina Santos",
+      name: "Arlou Mataro",
       role: "Founding Dean (2005-2015)",
-      image: "/p68.jpg",
+      image: "/SirAr.jpg",
       contribution: "Established the foundational curriculum and secured initial industry partnerships that shaped CIT's direction."
     },
     {

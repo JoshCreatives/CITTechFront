@@ -318,7 +318,7 @@ export default function FacultyAchievements() {
                             transition={{ delay: index * 0.15 + 0.7 + i * 0.05 }}
                             className="text-sm text-gray-700 dark:text-gray-200 flex items-start"
                           >
-                            <span className="text-maroon-600 dark:text-maroon-400 mr-2">•</span>
+                            <span className="text-maroon-600 dark:text-maroon-500 mr-2">•</span>
                             {detail}
                           </motion.li>
                         ))}

@@ -21,13 +21,13 @@ interface OfficeHour {
 
 const officeHours: OfficeHour[] = [
   {
-    facultyName: "Dr. Sarah Chen",
+    facultyName: "Junry T. Valenzuela, MIT",
     title: "Dean & Professor",
     department: "Computer Science",
     office: "Admin Building, Room 301",
-    email: "s.chen@cit.edu",
+    email: "junry@cit.edu",
     phone: "(555) 123-4501",
-    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=300",
+    image: "/p68.jpg",
     schedule: [
       { day: "Monday", time: "2:00 PM - 4:00 PM", type: "In-Person" },
       { day: "Wednesday", time: "10:00 AM - 12:00 PM", type: "In-Person" },
@@ -36,13 +36,13 @@ const officeHours: OfficeHour[] = [
     notes: "Please email in advance for virtual meetings. Available for urgent matters by appointment."
   },
   {
-    facultyName: "Prof. Michael Rodriguez",
+    facultyName: "Relvin Gloria",
     title: "Associate Professor",
     department: "Information Systems",
     office: "Tech Building, Room 205",
-    email: "m.rodriguez@cit.edu",
+    email: "relvin@cit.edu",
     phone: "(555) 123-4502",
-    image: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=300",
+    image: "/p35.jpg",
     schedule: [
       { day: "Tuesday", time: "9:00 AM - 11:00 AM", type: "In-Person" },
       { day: "Thursday", time: "2:00 PM - 4:00 PM", type: "In-Person" },
@@ -51,13 +51,13 @@ const officeHours: OfficeHour[] = [
     notes: "Drop-in welcome during scheduled hours. For project consultations, please schedule in advance."
   },
   {
-    facultyName: "Dr. Emily Johnson",
+    facultyName: "Arlou Mataro",
     title: "Professor",
     department: "Cybersecurity",
     office: "Security Lab, Room 101",
-    email: "e.johnson@cit.edu",
+    email: "arlou@cit.edu",
     phone: "(555) 123-4503",
-    image: "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=300",
+    image: "/SirAr.jpg",
     schedule: [
       { day: "Monday", time: "1:00 PM - 3:00 PM", type: "In-Person" },
       { day: "Wednesday", time: "11:00 AM - 1:00 PM", type: "In-Person" },
@@ -66,13 +66,13 @@ const officeHours: OfficeHour[] = [
     notes: "Security lab access available during office hours. Virtual sessions via secure video conference."
   },
   {
-    facultyName: "Prof. David Kim",
+    facultyName: "May Centro Tejada",
     title: "Assistant Professor",
     department: "Software Engineering",
     office: "Dev Center, Room 150",
-    email: "d.kim@cit.edu",
+    email: "may@cit.edu",
     phone: "(555) 123-4504",
-    image: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=300",
+    image: "/maammay.jpg",
     schedule: [
       { day: "Monday", time: "10:00 AM - 12:00 PM", type: "In-Person" },
       { day: "Tuesday", time: "3:00 PM - 5:00 PM", type: "In-Person" },
@@ -81,13 +81,13 @@ const officeHours: OfficeHour[] = [
     notes: "Code review sessions available. Bring your laptop for hands-on debugging assistance."
   },
   {
-    facultyName: "Dr. Lisa Thompson",
+    facultyName: "Rowel C. Salamingan",
     title: "Associate Professor",
     department: "Data Science",
     office: "Analytics Lab, Room 220",
-    email: "l.thompson@cit.edu",
+    email: "rowel@cit.edu",
     phone: "(555) 123-4505",
-    image: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=300",
+    image: "/p67.jpg",
     schedule: [
       { day: "Tuesday", time: "1:00 PM - 3:00 PM", type: "In-Person" },
       { day: "Thursday", time: "10:00 AM - 12:00 PM", type: "In-Person" },
@@ -96,13 +96,13 @@ const officeHours: OfficeHour[] = [
     notes: "Statistical software assistance available. Data analysis consultations by appointment."
   },
   {
-    facultyName: "Prof. James Wilson",
+    facultyName: "Daniel Stepualar",
     title: "Professor",
     department: "Network Administration",
     office: "Network Center, Room 180",
-    email: "j.wilson@cit.edu",
+    email: "daniel@cit.edu",
     phone: "(555) 123-4506",
-    image: "https://images.pexels.com/photos/3184340/pexels-photo-3184340.jpeg?auto=compress&cs=tinysrgb&w=300",
+    image: "/nodp.jpg",
     schedule: [
       { day: "Monday", time: "11:00 AM - 1:00 PM", type: "In-Person" },
       { day: "Wednesday", time: "3:00 PM - 5:00 PM", type: "In-Person" },
@@ -154,7 +154,7 @@ export default function OfficeHours() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="bg-gray-900 dark:bg-maroon-900 border border-gray-900 dark:border-maroon-700 rounded-lg p-6 mb-8 shadow-md"
+          className="bg-gray-900 dark:bg-maroon-700 border border-gray-900 dark:border-maroon-700 rounded-lg p-6 mb-8 shadow-md"
         >
           <h2 className="text-lg font-semibold text-white dark:text-white mb-2">Important Notes</h2>
           <ul className="text-white dark:text-white space-y-1">
@@ -264,7 +264,7 @@ export default function OfficeHours() {
 
                   <div className="mb-6">
                     <h4 className="font-semibold text-maroon-700 dark:text-white mb-3 flex items-center">
-                      <Clock className="h-4 w-4 mr-2 text-maroon-600 dark:text-maroon-500" />
+                      <Clock className="h-4 w-4 mr-2 text-maroon-600 dark:text-white" />
                       Office Hours Schedule
                     </h4>
                     <div className="space-y-2">
@@ -282,11 +282,11 @@ export default function OfficeHours() {
                             <span className="font-medium text-maroon-700 dark:text-white">{slot.day}</span>
                           </div>
                           <div className="text-right">
-                            <div className="text-maroon-700 dark:text-white">{slot.time}</div>
+                            <div className="text-maroon-600 dark:text-white">{slot.time}</div>
                             <span className={`text-xs px-2 py-1 rounded-full ${
                               slot.type === 'Virtual' 
                                 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300' 
-                                : 'bg-maroon-100 dark:bg-maroon-900 text-maroon-800 dark:text-white'
+                                : 'bg-maroon-100 dark:bg-maroon-700 text-maroon-800 dark:text-white'
                             }`}>
                               {slot.type}
                             </span>
@@ -300,7 +300,7 @@ export default function OfficeHours() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: index * 0.15 + 0.8 }}
-                    className="bg-maroon-50 dark:bg-maroon-800 border border-maroon-200 dark:border-maroon-500 rounded-lg p-4"
+                    className="bg-maroon-50 dark:bg-maroon-700 border border-maroon-200 dark:border-maroon-500 rounded-lg p-4"
                   >
                     <h5 className="font-medium text-maroon-900 dark:text-white mb-1">Additional Notes</h5>
                     <p className="text-maroon-800 dark:text-white text-sm">{faculty.notes}</p>
@@ -336,14 +336,14 @@ export default function OfficeHours() {
                     transition={{ delay: 1.3 + index * 0.1 }}
                     className="flex items-start"
                   >
-                    <span className="text-maroon-600 dark:text-maroon-400 mr-2">•</span>
+                    <span className="text-maroon-600 dark:text-maroon-500 mr-2">•</span>
                     <span>{tip}</span>
                   </motion.li>
                 ))}
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-maroon-700 dark:text-maroon-500 mb-4">During Your Visit</h3>
+              <h3 className="text-lg font-semibold text-maroon-700 dark:text-white mb-4">During Your Visit</h3>
               <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                 {[
                   "Be punctual and respectful of time limits",
@@ -358,7 +358,7 @@ export default function OfficeHours() {
                     transition={{ delay: 1.5 + index * 0.1 }}
                     className="flex items-start"
                   >
-                    <span className="text-maroon-600 dark:text-maroon-400 mr-2">•</span>
+                    <span className="text-maroon-600 dark:text-maroon-500 mr-2">•</span>
                     <span>{tip}</span>
                   </motion.li>
                 ))}

@@ -65,9 +65,10 @@ const searchData = [
   { title: "CIT Orientation", path: "/events/orientation" },
   { title: "Tech Talk 2024", path: "/events/techtalk" },
   { title: "CIT life", path: "/campus-life" },
-  { title: "Enrollment Period", path: "/enrollment" },
+  { title: "Enrollment", path: "/student/enrollment" },
   { title: "Alumni Homecoming", path: "/events/alumni-homecoming" },
   { title: "President's Message", path: "/about/president" },
+  { title: "Campus Safety", path: "/about/safety" },
   { title: "Campus Safety", path: "/about/safety" },
 ];
 

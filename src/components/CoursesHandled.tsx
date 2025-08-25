@@ -389,7 +389,7 @@ export default function CoursesHandled() {
                       <div className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">{faculty.totalCourses}</div>
                       <div className="text-xs md:text-sm text-gray-500 dark:text-gray-300">Courses</div>
                     </div>
-                    <div className="text-center bg-maroon-100 dark:bg-maroon-900 p-2 md:p-3 rounded-lg">
+                    <div className="text-center bg-maroon-100 dark:bg-maroon-700 p-2 md:p-3 rounded-lg">
                       <div className="text-lg md:text-2xl font-bold text-maroon-600 dark:text-white">{faculty.totalStudents}</div>
                       <div className="text-xs md:text-sm text-maroon-600 dark:text-white">Students</div>
                     </div>
@@ -414,7 +414,7 @@ export default function CoursesHandled() {
                       >
                         <div className="flex flex-col sm:flex-row items-start justify-between mb-4">
                           <div className="flex items-center mb-2 sm:mb-0">
-                            <div className="w-8 h-8 md:w-10 md:h-10 bg-maroon-900 rounded-lg flex items-center justify-center mr-3">
+                            <div className="w-8 h-8 md:w-10 md:h-10 bg-maroon-600 rounded-lg flex items-center justify-center mr-3">
                               <IconComponent className="h-4 w-4 md:h-5 md:w-5 text-white" />
                             </div>
                             <div>

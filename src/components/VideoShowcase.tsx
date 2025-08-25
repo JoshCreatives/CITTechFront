@@ -50,7 +50,7 @@ const VideoShowcase = () => {
           className="flex justify-between items-center mb-8"
         >
           <div className="flex items-center gap-2">
-            <Play className="h-6 w-6 text-maroon-600 dark:text-maroon-400" />
+            <Play className="h-6 w-6 text-maroon-600 dark:text-maroon-500" />
             <h2 className="text-2xl font-bold">CIT videos</h2>
           </div>
           <a
@@ -119,7 +119,7 @@ const VideoShowcase = () => {
               <span className="inline-block bg-maroon-600 dark:bg-maroon-500 text-white px-2 py-1 rounded text-xs font-medium mb-2">
                 {video.category}
               </span>
-              <h4 className="font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <h4 className="font-medium group-hover:text-blue-600 dark:group-hover:text-maroon-500 transition-colors">
                 {video.title}
               </h4>
             </motion.div>

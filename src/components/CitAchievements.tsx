@@ -30,7 +30,7 @@ const achievements: Achievement[] = [
       "State-of-the-art facilities and equipment"
     ],
     impact: "Enhanced reputation attracting top-tier students and faculty nationwide",
-    image: "https://images.pexels.com/photos/1181534/pexels-photo-1181534.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/top2.jpg",
     ranking: "#8",
     award_body: "TechEd Rankings"
   },
@@ -47,7 +47,7 @@ const achievements: Achievement[] = [
       "Strong partnerships with government agencies"
     ],
     impact: "Students eligible for federal cybersecurity scholarships and priority hiring",
-    image: "https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/wangs.jpg",
     award_body: "NSA & Department of Homeland Security"
   },
   {
@@ -63,7 +63,7 @@ const achievements: Achievement[] = [
       "Training 50+ graduate students"
     ],
     impact: "Established CIT as a leading AI research institution",
-    image: "https://images.pexels.com/photos/1181306/pexels-photo-1181306.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/oten.jpg",
     award_body: "National Science Foundation"
   },
   {
@@ -79,7 +79,7 @@ const achievements: Achievement[] = [
       "Team members received full scholarships for graduate studies"
     ],
     impact: "Put CIT on the global map for competitive programming excellence",
-    image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/top1.jpg",
     award_body: "International Collegiate Programming Contest"
   },
   {
