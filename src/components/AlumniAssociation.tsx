@@ -150,7 +150,7 @@ const AlumniAssociation = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-gray-900/75 flex items-center">
           <div className="max-w-7xl mx-auto px-4 w-full">
             <h1 className="text-5xl font-bold mb-4 text-white">
-              <span className="bg-gradient-to-r from-maroon-500 to-maroon-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white to-white bg-clip-text text-transparent">
                 SIIT Alumni Association
               </span>
             </h1>
