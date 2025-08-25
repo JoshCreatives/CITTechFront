@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Code, Users, Calendar, Award, ExternalLink, Github, Play, Star, Filter, Search } from 'lucide-react';
+import { Users, Calendar, Award, Github, Play, Star, Search, ArrowUp } from 'lucide-react';
 import { motion } from "framer-motion";
 import { useTheme } from '../hooks/useTheme';
 
@@ -215,11 +215,22 @@ export default function CapstoneProjects() {
   const [selectedStatus, setSelectedStatus] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [loaded, setLoaded] = useState(false);
+  const [showScroll, setShowScroll] = useState(false);
   const { theme } = useTheme();
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 100);
-    return () => clearTimeout(timer);
+    
+    // Add scroll event listener for scroll-to-top button
+    const handleScroll = () => {
+      setShowScroll(window.scrollY > 300);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const categories = ['All', 'Web Development', 'Mobile App', 'AI/ML', 'Cybersecurity', 'Data Science', 'Game Development'];
@@ -234,8 +245,27 @@ export default function CapstoneProjects() {
     return matchesCategory && matchesStatus && matchesSearch;
   });
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 py-12 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 transition-colors duration-300 py-12">
+      {/* Scroll to Top Button */}
+      {showScroll && (
+        <motion.button
+          onClick={scrollToTop}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="fixed bottom-8 right-8 bg-maroon-600 dark:bg-maroon-500 text-white p-3 rounded-full shadow-lg hover:bg-maroon-700 dark:hover:bg-maroon-600 transition-colors z-40"
+        >
+          <ArrowUp className="h-6 w-6" />
+        </motion.button>
+      )}
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}

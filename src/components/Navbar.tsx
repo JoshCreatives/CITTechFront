@@ -56,7 +56,7 @@ const navItems: NavItem[] = [
       { title: 'IT Exhibits', path: '/about/exibits' },
       { title: 'Capstone Projects', path: '/about/capstone' },
       { title: 'Facilities and labs', path: '/about/facilabs' },
-      { title: 'Mission & Vision', path: '/about/facilites' },
+      { title: 'Mission & Vision', path: '/about/mission' },
     ],
   },
 ];

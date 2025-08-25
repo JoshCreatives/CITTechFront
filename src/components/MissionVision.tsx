@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Target, Eye, Heart, Users, Globe, Lightbulb, Award, TrendingUp, BookOpen, Shield, ArrowUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../hooks/useTheme';
@@ -291,7 +291,7 @@ export default function MissionVision() {
                     <div className="space-y-2">
                       {goal.metrics.map((metric, metricIndex) => (
                         <div key={metricIndex} className="flex items-center">
-                          <div className="w-2 h-2 bg-maroon-500 dark:bg-maroon-400 rounded-full mr-3"></div>
+                          <div className="w-2 h-2 bg-maroon-500 dark:bg-maroon-500 rounded-full mr-3"></div>
                           <span className="text-gray-700 dark:text-gray-300">{metric}</span>
                         </div>
                       ))}
@@ -319,8 +319,8 @@ export default function MissionVision() {
             </blockquote>
             <div className="flex items-center justify-center">
               <img
-                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=100"
-                alt="Dr. Sarah Chen"
+                src="/p68.jpg"
+                alt="Junry T. Valenzuela, MIT"
                 className="w-16 h-16 rounded-full object-cover mr-4"
               />
               <div className="text-left">
@@ -329,37 +329,7 @@ export default function MissionVision() {
               </div>
             </div>
           </div>
-        </motion.div>
-
-        {/* Call to Action */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={loaded ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="mt-16 text-center"
-        >
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Join Our Mission</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            Be part of a community dedicated to excellence, innovation, and making a positive impact 
-            through technology education and research.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-maroon-600 dark:bg-maroon-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-maroon-700 dark:hover:bg-maroon-800 transition-colors duration-200 shadow-lg"
-            >
-              Apply Now
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="border-2 border-maroon-600 dark:border-maroon-500 text-maroon-600 dark:text-maroon-400 px-8 py-3 rounded-lg font-semibold hover:bg-maroon-50 dark:hover:bg-maroon-900/20 transition-all duration-200"
-            >
-              Learn More
-            </motion.button>
-          </div>
-        </motion.div>
+        </motion.div>    
       </div>
     </div>
   );
