@@ -343,7 +343,7 @@ export default function CapstoneProjects() {
               animate={loaded ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.4 + index * 0.1, duration: 0.6 }}
               whileHover={{ y: -5, scale: 1.02 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-maroon-900"
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-800"
             >
               <img
                 src={project.image}
@@ -422,7 +422,7 @@ export default function CapstoneProjects() {
                   </div>
                 )}
 
-                <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-maroon-900">
+                <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-800">
                   <div className="text-sm text-gray-600 dark:text-gray-400">
                     <strong>Team:</strong> {project.team.join(', ')}
                   </div>

@@ -137,7 +137,7 @@ const AlumniStories = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-3xl font-bold text-center mb-12 text-maroon-700 dark:text-maroon-500"
+          className="text-3xl font-bold text-center mb-12 text-maroon-700 dark:text-white"
         >
           Distinguished BSIT Graduates
         </motion.h2>
@@ -256,8 +256,8 @@ const AlumniStories = () => {
           viewport={{ once: true }}
           className="bg-maroon-800 rounded-lg shadow-xl text-white p-8 text-center border border-maroon-700"
         >
-          <h2 className="text-3xl font-bold mb-4 text-maroon-300">Share Your IT Journey</h2>
-          <p className="text-lg text-maroon-200 mb-8 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold mb-4 text-white">Share Your IT Journey</h2>
+          <p className="text-lg text-white mb-8 max-w-2xl mx-auto">
             Are you a BSIT graduate? Share your career progression and inspire current students 
             by showcasing the diverse opportunities in the IT field.
           </p>

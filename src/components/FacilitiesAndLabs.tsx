@@ -49,7 +49,7 @@ const facilities: Facility[] = [
       "Backup power systems"
     ],
     hours: "Monday-Friday: 7 AM - 11 PM, Weekends: 9 AM - 9 PM",
-    image: "https://images.pexels.com/photos/1181534/pexels-photo-1181534.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/top2.jpg",
     booking_required: false,
     access_level: "Open"
   },
@@ -82,7 +82,7 @@ const facilities: Facility[] = [
       "Secure communication systems"
     ],
     hours: "Monday-Friday: 8 AM - 10 PM, Weekends: By appointment",
-    image: "https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/p30.jpg",
     booking_required: true,
     access_level: "Restricted"
   },
@@ -115,7 +115,7 @@ const facilities: Facility[] = [
       "Publication support resources"
     ],
     hours: "24/7 access for authorized researchers",
-    image: "https://images.pexels.com/photos/1181306/pexels-photo-1181306.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi2.jpg",
     booking_required: true,
     access_level: "Restricted"
   },
@@ -148,7 +148,7 @@ const facilities: Facility[] = [
       "Performance monitoring tools"
     ],
     hours: "Monday-Friday: 8 AM - 10 PM, Weekends: 10 AM - 6 PM",
-    image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/p1.jpg",
     booking_required: false,
     access_level: "Open"
   },
@@ -181,7 +181,7 @@ const facilities: Facility[] = [
       "Performance optimization"
     ],
     hours: "Monday-Friday: 9 AM - 9 PM, Weekends: By appointment",
-    image: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/p2.jpg",
     booking_required: true,
     access_level: "Restricted"
   },
@@ -214,7 +214,7 @@ const facilities: Facility[] = [
       "Virtual reality content creation"
     ],
     hours: "Monday-Friday: 8 AM - 10 PM, Weekends: 12 PM - 8 PM",
-    image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/p15.png",
     booking_required: true,
     access_level: "Open"
   },
@@ -247,7 +247,7 @@ const facilities: Facility[] = [
       "24/7 access for students"
     ],
     hours: "24/7 access with student ID",
-    image: "https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/p39.jpg",
     booking_required: false,
     access_level: "Open"
   },
@@ -280,7 +280,7 @@ const facilities: Facility[] = [
       "Project showcase displays"
     ],
     hours: "Monday-Friday: 9 AM - 8 PM, Weekends: 1 PM - 5 PM",
-    image: "https://images.pexels.com/photos/1181534/pexels-photo-1181534.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi1.jpg",
     booking_required: true,
     access_level: "Restricted"
   }
@@ -604,7 +604,7 @@ export default function FacilitiesLabs() {
               <div>
                 <h3 className="font-medium text-gray-900 dark:text-white">How to Book</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm">Use the online booking system or contact facility management</p>
-                <p className="text-maroon-600 dark:text-maroon-400 text-sm">facilities@cit.edu | (555) 123-4580</p>
+                <p className="text-maroon-600 dark:text-maroon-500 text-sm">facilities@cit.edu | (555) 123-4580</p>
               </div>
               <div>
                 <h3 className="font-medium text-gray-900 dark:text-white">Booking Requirements</h3>

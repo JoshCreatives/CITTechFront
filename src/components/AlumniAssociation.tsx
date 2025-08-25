@@ -223,7 +223,7 @@ const AlumniAssociation = () => {
               <XCircle className="h-8 w-8 text-red-600" />{" "}
               {/* Success icon */}
             </div>
-            <h2 className="text-xl font-bold text-red-600 dark:text-red-400 mb-4">
+            <h2 className="text-xl font-bold text-red-600 dark:text-red-500 mb-4">
               Submission Failed!
             </h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
@@ -269,7 +269,7 @@ const AlumniAssociation = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-gray-900/75 flex items-center">
           <div className="max-w-7xl mx-auto px-4 w-full">
             <h1 className="text-5xl font-bold mb-4 text-white">
-              <span className="bg-gradient-to-r from-white to-maroon-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-maroon-500 to-maroon-600 bg-clip-text text-transparent">
                 SIIT Alumni Association
               </span>
             </h1>
@@ -302,7 +302,7 @@ const AlumniAssociation = () => {
               viewport={{ once: true }}
               className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700"
             >
-              <div className="bg-maroon-600/20 dark:bg-maroon-600 p-3 rounded-full w-12 h-12 flex items-center justify-center text-maroon-600 dark:text-white mb-4">
+              <div className="bg-maroon-600 dark:bg-maroon-600 p-3 rounded-full w-12 h-12 flex items-center justify-center text-white dark:text-white mb-4">
                 {benefit.icon}
               </div>
               <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
