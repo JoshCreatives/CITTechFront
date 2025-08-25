@@ -26,13 +26,13 @@ const capstoneProjects: Project[] = [
   {
     id: "1",
     title: "CIT-LMS Learning Management System",
-    team: ["Alex Johnson", "Maria Garcia", "David Chen"],
-    advisor: "Dr. Sarah Chen",
-    department: "Computer Science",
-    year: "2024",
+    team: ["John Joshua Tiu", "Daryl Villar", "Jhanmark Acedera"],
+    advisor: "Rowel C. Salamingan",
+    department: "BSIT",
+    year: "2025",
     semester: "Fall",
-    description: "An AI-powered mobile application that provides real-time navigation assistance for campus visitors and students, featuring indoor mapping, crowd density analysis, and accessibility routing.",
-    technologies: ["React Native", "Python", "TensorFlow", "Firebase", "Google Maps API"],
+    description: "A application that provides real-time navigation assistance for campus visitors and students, featuring indoor mapping, crowd density analysis, and accessibility routing.",
+    technologies: ["React Native", "PHP", "SQL", "Infinityfree"],
     features: [
       "Real-time indoor navigation with AR overlay",
       "Crowd density prediction using ML algorithms",
@@ -41,7 +41,7 @@ const capstoneProjects: Project[] = [
       "Integration with campus events calendar"
     ],
     achievements: [
-      "Winner - Best Innovation Award 2024",
+      "Winner - Best Innovation Award 2025",
       "Featured in Campus Technology Magazine",
       "Adopted by university administration",
       "10,000+ downloads in first month"
