@@ -324,7 +324,7 @@ export default function MissionVision() {
                 className="w-16 h-16 rounded-full object-cover mr-4"
               />
               <div className="text-left">
-                <div className="font-semibold text-lg">Dr. Sarah Chen</div>
+                <div className="font-semibold text-lg">Junry T. Valenzuela, MIT</div>
                 <div className="text-maroon-100">Dean, College of Information Technology</div>
               </div>
             </div>
