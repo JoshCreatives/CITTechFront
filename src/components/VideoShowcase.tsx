@@ -6,22 +6,26 @@ const VideoShowcase = () => {
     {
       thumbnail: "./p34.jpg",
       title: "Keep looking up and moving forward",
-      category: "Videos"
+      category: "Videos",
+      url: "https://youtu.be/yZISqR1ix5c?si=OeSt-e2H0gOwg6E_"
     },
     {
       thumbnail: "./p17.jpg",
       title: "Made to Be More in Senior High",
-      category: "Videos"
+      category: "Videos",
+      url: "https://www.youtube.com/watch?v=yyyyyyy"
     },
     {
       thumbnail: "./p19.jpg",
       title: "Be More in College",
-      category: "Videos"
+      category: "Videos",
+      url: "https://www.youtube.com/watch?v=zzzzzzz"
     },
     {
       thumbnail: "./p20.jpg",
       title: "Behind a Mother's Hard Work",
-      category: "Videos"
+      category: "Videos",
+      url: "https://www.youtube.com/watch?v=wwwwwww"
     }
   ];
 
@@ -54,7 +58,7 @@ const VideoShowcase = () => {
             <h2 className="text-2xl font-bold">CIT videos</h2>
           </div>
           <a
-            href="https://youtube.com"
+            href="https://youtube.com/@YourChannelHere"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-md transition-colors"
@@ -65,16 +69,19 @@ const VideoShowcase = () => {
         </motion.div>
 
         {/* Featured Video */}
-        <motion.div
+        <motion.a
+          href="https://www.youtube.com/watch?v=FEATURED_ID" // replace with real link
+          target="_blank"
+          rel="noopener noreferrer"
           initial="hidden"
           whileInView="visible"
           variants={fadeInUp}
-          className="relative mb-8 group cursor-pointer"
+          className="relative mb-8 group cursor-pointer block"
         >
           <div className="aspect-video relative rounded-lg overflow-hidden shadow-lg dark:shadow-gray-800/50">
             <img
               src="./p16.jpg"
-              alt="Be Future-ready in STI"
+              alt="Be Future-ready in CIT"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -89,7 +96,7 @@ const VideoShowcase = () => {
             </span>
             <h3 className="text-2xl font-bold">Be Future-ready in CIT</h3>
           </div>
-        </motion.div>
+        </motion.a>
 
         {/* Video Grid */}
         <motion.div
@@ -99,10 +106,13 @@ const VideoShowcase = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {videos.map((video, index) => (
-            <motion.div
+            <motion.a
               key={index}
+              href={video.url}
+              target="_blank"
+              rel="noopener noreferrer"
               variants={fadeInUp}
-              className="group cursor-pointer"
+              className="group cursor-pointer block"
             >
               <div className="aspect-video relative rounded-lg overflow-hidden mb-3 shadow-md dark:shadow-gray-800/30">
                 <img
@@ -122,7 +132,7 @@ const VideoShowcase = () => {
               <h4 className="font-medium group-hover:text-blue-600 dark:group-hover:text-maroon-500 transition-colors">
                 {video.title}
               </h4>
-            </motion.div>
+            </motion.a>
           ))}
         </motion.div>
       </div>

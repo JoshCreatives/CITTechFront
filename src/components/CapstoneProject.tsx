@@ -25,7 +25,7 @@ interface Project {
 const capstoneProjects: Project[] = [
   {
     id: "1",
-    title: "Smart Campus Navigation System",
+    title: "CIT-LMS Learning Management System",
     team: ["Alex Johnson", "Maria Garcia", "David Chen"],
     advisor: "Dr. Sarah Chen",
     department: "Computer Science",
@@ -46,8 +46,8 @@ const capstoneProjects: Project[] = [
       "Adopted by university administration",
       "10,000+ downloads in first month"
     ],
-    image: "/exi7.jpg",
-    demoUrl: "https://demo.smartcampus.edu",
+    image: "/wang1.jpg",
+    demoUrl: "https://citlms.free.nf/",
     githubUrl: "https://github.com/citcampus/smart-navigation",
     category: "Mobile App",
     status: "Awarded"
