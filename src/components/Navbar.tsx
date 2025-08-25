@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Menu, X, Search, Sun, Moon } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -69,7 +69,6 @@ const searchData = [
   { title: "Alumni Homecoming", path: "/events/alumni-homecoming" },
   { title: "President's Message", path: "/about/president" },
   { title: "Campus Safety", path: "/about/safety" },
-  { title: "Campus Safety", path: "/about/safety" },
 ];
 
 const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
@@ -80,14 +79,24 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<typeof searchData>([]);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
+      // Close dropdowns if clicked outside
       if (activeDropdown) {
         setActiveDropdown(null);
       }
-      if (showSearch && !(e.target as HTMLElement).closest('.search-container')) {
+      
+      // Close search if clicked outside of search container and not on the search button
+      if (showSearch && 
+          searchContainerRef.current && 
+          !searchContainerRef.current.contains(e.target as Node) &&
+          searchButtonRef.current &&
+          !searchButtonRef.current.contains(e.target as Node)) {
         setShowSearch(false);
+        setSearchTerm("");
       }
     };
 
@@ -120,6 +129,17 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
 
   const handleDropdownClick = (title: string) => {
     setActiveDropdown(activeDropdown === title ? null : title);
+  };
+
+  const handleSearchToggle = () => {
+    if (showSearch) {
+      // If search is already open, close it
+      setShowSearch(false);
+      setSearchTerm("");
+    } else {
+      // If search is closed, open it
+      setShowSearch(true);
+    }
   };
 
   return (
@@ -254,8 +274,13 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
 
             {/* Search (Desktop & Mobile) */}
             <button
-              onClick={() => setShowSearch(!showSearch)}
-              className="p-2 rounded-md hover:bg-maroon-700 dark:hover:bg-gray-700 focus:outline-none transition-colors"
+              ref={searchButtonRef}
+              onClick={handleSearchToggle}
+              className={`p-2 rounded-md focus:outline-none transition-colors ${
+                showSearch 
+                  ? 'bg-maroon-700 dark:bg-gray-700 text-white' 
+                  : 'hover:bg-maroon-700 dark:hover:bg-gray-700'
+              }`}
               aria-label="Search"
             >
               <Search className="h-5 w-5" />
@@ -276,6 +301,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
         <AnimatePresence>
           {showSearch && (
             <motion.div
+              ref={searchContainerRef}
               className="search-container absolute right-4 md:right-8 top-16 z-50 bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 backdrop-blur-md rounded-lg shadow-lg p-4 w-[calc(100%-2rem)] md:w-80 border border-gray-200 dark:border-gray-800"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -301,6 +327,10 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                       key={item.title}
                       href={item.path}
                       className="block px-3 py-2 rounded hover:bg-maroon-600 dark:hover:bg-gray-800 hover:text-white text-black dark:text-white text-sm"
+                      onClick={() => {
+                        setShowSearch(false);
+                        setSearchTerm("");
+                      }}
                     >
                       {item.title}
                     </a>
@@ -311,87 +341,87 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
           )}
         </AnimatePresence>
 
-{/* Mobile Menu */}
-<AnimatePresence>
-  {isMobileMenuOpen && (
-    <motion.div
-      className="md:hidden bg-white dark:bg-gray-800"
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: 'auto' }}
-      exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-    >
-      <div className="px-4 py-3 space-y-0"> {/* Changed space-y-2 to space-y-0 */}
-        {navItems.map((item, index) => (
-          <div key={item.title} className="mb-0"> {/* Changed mb-1 to mb-0 */}
-            {item.dropdownItems ? (
-              <div>
-                <button
-                  className={`w-full flex justify-between items-center px-3 py-4 text-sm font-semibold transition-colors rounded-md ${
-                    theme === 'light'
-                      ? 'text-black hover:bg-maroon-600 hover:text-white'
-                      : 'text-white hover:bg-gray-900'
-                  }`}
-                  onClick={() => toggleMobileDropdown(item.title)}
-                >
-                  {item.title}
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform ${
-                      mobileActiveDropdown === item.title ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-                <AnimatePresence>
-                  {mobileActiveDropdown === item.title && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="ml-4 mt-1 space-y-1"
-                    >
-                      {item.dropdownItems.map((dropdownItem) => (
-                        <a
-                          key={dropdownItem.title}
-                          href={dropdownItem.path}
-                          className={`block px-3 py-2 text-sm font-medium transition-colors rounded-md ${
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              className="md:hidden bg-white dark:bg-gray-800"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+            >
+              <div className="px-4 py-3 space-y-0">
+                {navItems.map((item, index) => (
+                  <div key={item.title} className="mb-0">
+                    {item.dropdownItems ? (
+                      <div>
+                        <button
+                          className={`w-full flex justify-between items-center px-3 py-4 text-sm font-semibold transition-colors rounded-md ${
                             theme === 'light'
                               ? 'text-black hover:bg-maroon-600 hover:text-white'
                               : 'text-white hover:bg-gray-900'
                           }`}
-                          onClick={() => setIsMobileMenuOpen(false)}
+                          onClick={() => toggleMobileDropdown(item.title)}
                         >
-                          {dropdownItem.title}
-                        </a>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                          {item.title}
+                          <ChevronDown
+                            className={`h-4 w-4 transition-transform ${
+                              mobileActiveDropdown === item.title ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </button>
+                        <AnimatePresence>
+                          {mobileActiveDropdown === item.title && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="ml-4 mt-1 space-y-1"
+                            >
+                              {item.dropdownItems.map((dropdownItem) => (
+                                <a
+                                  key={dropdownItem.title}
+                                  href={dropdownItem.path}
+                                  className={`block px-3 py-2 text-sm font-medium transition-colors rounded-md ${
+                                    theme === 'light'
+                                      ? 'text-black hover:bg-maroon-600 hover:text-white'
+                                      : 'text-white hover:bg-gray-900'
+                                  }`}
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                  {dropdownItem.title}
+                                </a>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <a
+                        href={item.path}
+                        className={`block px-3 py-4 text-sm font-semibold transition-colors rounded-md ${
+                          theme === 'light'
+                            ? 'text-black hover:bg-maroon-600 hover:text-white'
+                            : 'text-white hover:bg-gray-900'
+                        }`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.title}
+                      </a>
+                    )}
+                    
+                    {/* Add divider line after each item except the last one */}
+                    {index < navItems.length - 1 && (
+                      <hr className={`my-1 ${theme === 'light' ? 'border-gray-200' : 'border-gray-700/50'}`} />
+                    )}
+                  </div>
+                ))}
               </div>
-            ) : (
-              <a
-                href={item.path}
-                className={`block px-3 py-4 text-sm font-semibold transition-colors rounded-md ${
-                  theme === 'light'
-                    ? 'text-black hover:bg-maroon-600 hover:text-white'
-                    : 'text-white hover:bg-gray-900'
-                }`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.title}
-              </a>
-            )}
-            
-            {/* Add divider line after each item except the last one */}
-            {index < navItems.length - 1 && (
-              <hr className={`my-1 ${theme === 'light' ? 'border-gray-200' : 'border-gray-700/50'}`} />
-            )}
-          </div>
-        ))}
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.nav>
   );
