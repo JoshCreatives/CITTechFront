@@ -46,7 +46,7 @@ const capstoneProjects: Project[] = [
       "Adopted by university administration",
       "10,000+ downloads in first month"
     ],
-    image: "https://images.pexels.com/photos/1181534/pexels-photo-1181534.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi7.jpg",
     demoUrl: "https://demo.smartcampus.edu",
     githubUrl: "https://github.com/citcampus/smart-navigation",
     category: "Mobile App",
@@ -75,7 +75,7 @@ const capstoneProjects: Project[] = [
       "Patent application filed",
       "Interest from 3 major security firms"
     ],
-    image: "https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi5.jpg",
     demoUrl: "https://cyberguard-demo.cit.edu",
     githubUrl: "https://github.com/citcyber/cyberguard",
     category: "Cybersecurity",
@@ -104,7 +104,7 @@ const capstoneProjects: Project[] = [
       "Published research paper",
       "Collaboration with Environmental Science dept"
     ],
-    image: "https://images.pexels.com/photos/1181306/pexels-photo-1181306.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi4.jpg",
     demoUrl: "https://ecotrack.cit.edu",
     category: "Data Science",
     status: "Completed"
@@ -132,7 +132,7 @@ const capstoneProjects: Project[] = [
       "Improved student performance by 25%",
       "Featured in EdTech conference"
     ],
-    image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi3.jpg",
     demoUrl: "https://codementor.cit.edu",
     githubUrl: "https://github.com/citcode/codementor",
     category: "AI/ML",
@@ -161,7 +161,7 @@ const capstoneProjects: Project[] = [
       "Adopted by 5 other universities",
       "Cost savings of $50,000 annually"
     ],
-    image: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi8.jpg",
     demoUrl: "https://virtuallab.cit.edu",
     category: "Web Development",
     status: "Completed"
@@ -189,7 +189,7 @@ const capstoneProjects: Project[] = [
       "Interest from indie game studios",
       "Potential for commercialization"
     ],
-    image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi2.jpg",
     category: "Game Development",
     status: "In Progress"
   }
@@ -206,8 +206,8 @@ const categoryColors = {
 
 const statusColors = {
   "Completed": "bg-green-600 dark:bg-green-700 text-white",
-  "In Progress": "bg-yellow-600 dark:bg-yellow-700 text-white",
-  "Awarded": "bg-purple-600 dark:bg-purple-700 text-white"
+  "In Progress": "bg-gray-700 dark:bg-gray-700 text-white",
+  "Awarded": "bg-yellow-600 dark:bg-yellow-600 text-white"
 };
 
 export default function CapstoneProjects() {
@@ -294,7 +294,7 @@ export default function CapstoneProjects() {
           initial={{ opacity: 0, y: 30 }}
           animate={loaded ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="bg-gray-800 dark:bg-maroon-950 rounded-xl shadow-lg p-6 mb-8 border border-gray-200 dark:border-gray-700"
+          className="bg-maroon-600 dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8 border border-gray-200 dark:border-gray-700"
         >
           <div className="grid md:grid-cols-4 gap-4">
             <div className="relative">
@@ -328,7 +328,7 @@ export default function CapstoneProjects() {
               ))}
             </select>
 
-            <div className="text-gray-700 dark:text-maroon-100 flex items-center justify-center">
+            <div className="text-white dark:text-maroon-100 flex items-center justify-center">
               Showing {filteredProjects.length} of {capstoneProjects.length} projects
             </div>
           </div>
@@ -365,11 +365,11 @@ export default function CapstoneProjects() {
 
                 <div className="grid grid-cols-2 gap-4 mb-4 text-sm text-gray-600 dark:text-gray-400">
                   <div className="flex items-center">
-                    <Users className="h-4 w-4 mr-2 text-maroon-600 dark:text-maroon-400" />
+                    <Users className="h-4 w-4 mr-2 text-maroon-600 dark:text-maroon-500" />
                     {project.team.length} Team Members
                   </div>
                   <div className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-2 text-maroon-600 dark:text-maroon-400" />
+                    <Calendar className="h-4 w-4 mr-2 text-maroon-600 dark:text-maroon-500" />
                     {project.semester} {project.year}
                   </div>
                   <div className="col-span-2">
@@ -378,7 +378,7 @@ export default function CapstoneProjects() {
                 </div>
 
                 <div className="mb-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-maroon-100 mb-2">Technologies Used:</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Technologies Used:</h4>
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech, index) => (
                       <span key={index} className="px-2 py-1 bg-maroon-100 dark:bg-maroon-900 text-maroon-800 dark:text-maroon-100 text-xs rounded">
@@ -389,11 +389,11 @@ export default function CapstoneProjects() {
                 </div>
 
                 <div className="mb-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-maroon-100 mb-2">Key Features:</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Key Features:</h4>
                   <ul className="space-y-1">
                     {project.features.slice(0, 3).map((feature, index) => (
                       <li key={index} className="text-sm text-gray-700 dark:text-gray-300 flex items-start">
-                        <span className="text-maroon-600 dark:text-maroon-400 mr-2">•</span>
+                        <span className="text-maroon-600 dark:text-maroon-500 mr-2">•</span>
                         {feature}
                       </li>
                     ))}
@@ -407,7 +407,7 @@ export default function CapstoneProjects() {
 
                 {project.achievements.length > 0 && (
                   <div className="mb-4">
-                    <h4 className="font-semibold text-gray-900 dark:text-maroon-100 mb-2 flex items-center">
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
                       <Award className="h-4 w-4 mr-1 text-yellow-500" />
                       Achievements:
                     </h4>

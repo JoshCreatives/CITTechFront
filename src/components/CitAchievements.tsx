@@ -95,7 +95,7 @@ const achievements: Achievement[] = [
       "$2M in student scholarships from industry partners"
     ],
     impact: "Graduates are industry-ready with relevant skills and experience",
-    image: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/top3.jpg",
     award_body: "National Association of Technology Colleges"
   },
   {
@@ -111,7 +111,7 @@ const achievements: Achievement[] = [
       "Combined research impact factor of 15.7"
     ],
     impact: "Enhanced research reputation and attracted top-tier graduate students",
-    image: "https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/top4.jpg",
     award_body: "Various Professional Organizations"
   },
   {
@@ -127,7 +127,7 @@ const achievements: Achievement[] = [
       "$500K annual cost savings"
     ],
     impact: "Model for other institutions seeking sustainable technology solutions",
-    image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/top5.jpg",
     award_body: "Environmental Technology Council"
   },
   {
@@ -143,7 +143,7 @@ const achievements: Achievement[] = [
       "Cultural diversity and inclusion initiatives"
     ],
     impact: "Enhanced global perspective and cultural competency of graduates",
-    image: "https://images.pexels.com/photos/1181534/pexels-photo-1181534.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/top 6.jpg",
     award_body: "International Education Association"
   }
 ];
@@ -310,7 +310,7 @@ export default function CITAchievements() {
                         <IconComponent className="h-4 w-4 mr-1 text-white" />
                         {achievement.category}
                       </span>
-                      <div className="flex items-center text-sm text-maroon-600 dark:text-maroon-400">
+                      <div className="flex items-center text-sm text-maroon-600 dark:text-white">
                         <Calendar className="h-4 w-4 mr-1" />
                         {achievement.year}
                         {achievement.ranking && (
@@ -329,7 +329,7 @@ export default function CITAchievements() {
                       <ul className="space-y-1">
                         {achievement.details.map((detail, detailIndex) => (
                           <li key={detailIndex} className="text-sm text-gray-600 dark:text-gray-400 flex items-start">
-                            <Medal className="h-3 w-3 text-maroon-600 dark:text-maroon-400 mr-2 mt-1 flex-shrink-0" />
+                            <Medal className="h-3 w-3 text-maroon-600 dark:text-maroon-500 mr-2 mt-1 flex-shrink-0" />
                             {detail}
                           </li>
                         ))}
@@ -345,7 +345,7 @@ export default function CITAchievements() {
                       <div className="text-sm text-gray-700 dark:text-gray-300">
                         <strong>Awarded by:</strong> {achievement.award_body}
                       </div>
-                      <div className="flex items-center text-maroon-600 dark:text-maroon-400">
+                      <div className="flex items-center text-maroon-600 dark:text-white">
                         <Trophy className="h-4 w-4 mr-1" />
                         <span className="text-sm font-medium">Achievement Unlocked</span>
                       </div>

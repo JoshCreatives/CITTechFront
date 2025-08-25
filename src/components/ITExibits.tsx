@@ -30,7 +30,7 @@ const exhibits: Exhibit[] = [
     date: "2025-01-15",
     duration: "Permanent Exhibition",
     visitors: 1250,
-    image: "https://images.pexels.com/photos/1181534/pexels-photo-1181534.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi3.jpg",
     features: [
       "360-degree immersive environments",
       "Multi-user collaboration spaces",
@@ -52,7 +52,7 @@ const exhibits: Exhibit[] = [
     date: "2025-01-20",
     duration: "Daily Demos: 10 AM - 4 PM",
     visitors: 890,
-    image: "https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi2.jpg",
     features: [
       "Real-time threat monitoring",
       "AI-powered anomaly detection",
@@ -74,7 +74,7 @@ const exhibits: Exhibit[] = [
     date: "2025-02-01",
     duration: "Weekdays: 9 AM - 5 PM",
     visitors: 650,
-    image: "https://images.pexels.com/photos/1181306/pexels-photo-1181306.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi1.jpg",
     features: [
       "Quantum circuit visualization",
       "Algorithm simulation interface",
@@ -96,7 +96,7 @@ const exhibits: Exhibit[] = [
     date: "2025-02-10",
     duration: "24/7 Live Monitoring",
     visitors: 1100,
-    image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi4.jpg",
     features: [
       "Real-time sensor data visualization",
       "Energy consumption analytics",
@@ -118,7 +118,7 @@ const exhibits: Exhibit[] = [
     date: "2025-02-15",
     duration: "Guided Tours: 11 AM, 2 PM, 4 PM",
     visitors: 780,
-    image: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi5.jpg",
     features: [
       "Medical image analysis",
       "Pattern recognition algorithms",
@@ -140,7 +140,7 @@ const exhibits: Exhibit[] = [
     date: "2025-03-01",
     duration: "Monthly Rotation",
     visitors: 1500,
-    image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi6.jpg",
     features: [
       "Interactive project demonstrations",
       "Student presentation sessions",
@@ -162,7 +162,7 @@ const exhibits: Exhibit[] = [
     date: "2025-03-10",
     duration: "Weekdays: 1 PM - 5 PM",
     visitors: 920,
-    image: "https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi7.jpg",
     features: [
       "Live blockchain transactions",
       "Smart contract deployment",
@@ -184,7 +184,7 @@ const exhibits: Exhibit[] = [
     date: "2025-03-15",
     duration: "Daily Shows: 10 AM, 1 PM, 3 PM",
     visitors: 1350,
-    image: "https://images.pexels.com/photos/1181534/pexels-photo-1181534.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image: "/exi8.jpg",
     features: [
       "Autonomous navigation robots",
       "Industrial robotic arms",
@@ -447,7 +447,7 @@ export default function ITExhibits() {
                     <ul className="space-y-1">
                       {exhibit.features.slice(0, 3).map((feature, index) => (
                         <li key={index} className="text-sm text-gray-600 dark:text-gray-300 flex items-start">
-                          <span className="text-maroon-600 dark:text-maroon-400 mr-2">•</span>
+                          <span className="text-maroon-600 dark:text-maroon-500 mr-2">•</span>
                           {feature}
                         </li>
                       ))}
@@ -512,7 +512,7 @@ export default function ITExhibits() {
               <div>
                 <h3 className="font-medium text-gray-900 dark:text-white">Group Tours</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm">Available by appointment for groups of 10+</p>
-                <p className="text-maroon-600 dark:text-maroon-400 text-sm">Contact: exhibits@cit.edu</p>
+                <p className="text-maroon-600 dark:text-maroon-500 text-sm">Contact: exhibits@cit.edu</p>
               </div>
               <div>
                 <h3 className="font-medium text-gray-900 dark:text-white">Admission</h3>
