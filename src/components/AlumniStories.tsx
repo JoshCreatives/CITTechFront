@@ -2,9 +2,37 @@
 import { Award, Briefcase, MapPin, Quote, ChevronRight, Search, ArrowUp } from 'lucide-react';
 import { motion } from "framer-motion";
 import { useState, useEffect } from 'react';
+import supabaseClient from "../../src/services/supabaseClient";
 
 const AlumniStories = () => {
   const [showScroll, setShowScroll] = useState(false);
+
+  // Fetch from Supabase
+  const [featuredAlumni, setFeaturedAlumni] = useState<any[]>([]);
+  const [successStories, setSuccessStories] = useState<any[]>([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    fetchAlumni();
+    fetchStories();
+    // eslint-disable-next-line
+  }, []);
+
+  async function fetchAlumni() {
+    const { data, error } = await supabaseClient
+      .from("featured_alumni")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (!error) setFeaturedAlumni(data || []);
+  }
+
+  async function fetchStories() {
+    const { data, error } = await supabaseClient
+      .from("success_stories")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (!error) setSuccessStories(data || []);
+  }
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -26,61 +54,19 @@ const AlumniStories = () => {
     return () => window.removeEventListener('scroll', checkScroll);
   }, [showScroll]);
 
-  const featuredAlumni = [
-    {
-      name: "Jhunrey Obligado",
-      batch: "2015",
-      role: "Senior Software Architect",
-      company: "TechVision Solutions",
-      image: "/p38.jpg",
-      quote: "The BSIT program gave me the technical foundation and problem-solving skills needed to design complex software systems.",
-      achievements: [
-        "Microsoft Certified Solutions Expert",
-        "Tech Innovation Award 2022",
-        "Speaker at DevCon International"
-      ]
-    },
-    {
-      name: "Nessie Navarro",
-      batch: "2012",
-      role: "Cybersecurity Director",
-      company: "Global Systems Inc.",
-      image: "/p37.jpg",
-      quote: "The cybersecurity courses in BSIT prepared me for real-world challenges in protecting enterprise systems.",
-      achievements: [
-        "Certified Information Systems Security Professional",
-        "Industry Leadership Award",
-        "Women in Tech Honoree"
-      ]
-    }
-  ];
-
-  const successStories = [
-    {
-      name: "Relvin",
-      batch: "2018",
-      role: "Cloud Solutions Engineer",
-      company: "Techlab Unite",
-      image: "/p35.jpg",
-      location: "Siargao Island"
-    },
-    {
-      name: "Rowel Casa",
-      batch: "2019",
-      role: "Data Science Lead",
-      company: "Microsoft",
-      image: "/p67.jpg",
-      location: "SiarGao Island"
-    },
-    {
-      name: "Junry Valenzuela",
-      batch: "2017",
-      role: "DevOps Specialist",
-      company: "Techlab Unite",
-      image: "/p68.jpg",
-      location: "Siargao Island"
-    }
-  ];
+  // Filtered data for search
+  const filteredAlumni = featuredAlumni.filter(a =>
+    a.name.toLowerCase().includes(search.toLowerCase()) ||
+    a.role.toLowerCase().includes(search.toLowerCase()) ||
+    a.company.toLowerCase().includes(search.toLowerCase()) ||
+    (a.quote || "").toLowerCase().includes(search.toLowerCase())
+  );
+  const filteredStories = successStories.filter(s =>
+    s.name.toLowerCase().includes(search.toLowerCase()) ||
+    s.role.toLowerCase().includes(search.toLowerCase()) ||
+    s.company.toLowerCase().includes(search.toLowerCase()) ||
+    (s.location || "").toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
@@ -123,6 +109,8 @@ const AlumniStories = () => {
                   type="text"
                   placeholder="Search IT alumni stories..."
                   className="w-full pl-12 pr-4 py-3 rounded-full bg-gray-800/70 dark:bg-gray-700/80 border border-gray-600 dark:border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
             </div>
@@ -142,9 +130,9 @@ const AlumniStories = () => {
           Distinguished BSIT Graduates
         </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {featuredAlumni.map((alumni, index) => (
+          {filteredAlumni.map((alumni, index) => (
             <motion.div 
-              key={index}
+              key={alumni.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
@@ -154,7 +142,7 @@ const AlumniStories = () => {
               <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className="relative h-64 md:h-auto">
                   <img
-                    src={alumni.image}
+                    src={alumni.image_url}
                     alt={alumni.name}
                     className="w-full h-full object-cover"
                   />
@@ -170,12 +158,14 @@ const AlumniStories = () => {
                     <Briefcase className="h-5 w-5 mr-2 text-maroon-600 dark:text-maroon-500" />
                     <span>{alumni.role} at {alumni.company}</span>
                   </div>
-                  <div className="mb-6">
-                    <Quote className="h-8 w-8 text-maroon-600 dark:text-maroon-500 mb-2" />
-                    <p className="text-gray-600 dark:text-gray-300 italic">{alumni.quote}</p>
-                  </div>
+                  {alumni.quote && (
+                    <div className="mb-6">
+                      <Quote className="h-8 w-8 text-maroon-600 dark:text-maroon-500 mb-2" />
+                      <p className="text-gray-600 dark:text-gray-300 italic">{alumni.quote}</p>
+                    </div>
+                  )}
                   <div className="space-y-2">
-                    {alumni.achievements.map((achievement, idx) => (
+                    {(alumni.achievements || []).map((achievement: string, idx: number) => (
                       <div key={idx} className="flex items-center">
                         <Award className="h-5 w-5 text-yellow-500 dark:text-yellow-400 mr-2" />
                         <span className="text-gray-600 dark:text-gray-300">{achievement}</span>
@@ -202,7 +192,7 @@ const AlumniStories = () => {
             IT Career Paths
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {successStories.map((story, index) => (
+            {filteredStories.map((story, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}

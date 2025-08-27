@@ -1,6 +1,5 @@
 "use client";
-import { useLayoutEffect, useState } from "react";
-import { Dialog } from "@headlessui/react";
+import { useLayoutEffect, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Calendar,
@@ -28,30 +27,62 @@ const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [blogsList, setBlogsList] = useState<any>([]);
-  const [featuredBlogPost, setFeaturedBlogPost] = useState<any>([]);
+  const [featuredBlogPost, setFeaturedBlogPost] = useState<any>(null);
 
   useLayoutEffect(() => {
     fetchBlogs();
+    
+    // Set up real-time subscription
+    const subscription = supabaseClient
+      .channel('blogs-real-time')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'blogs' }, 
+        (payload) => {
+          console.log('Real-time update received:', payload);
+          fetchBlogs(); // Refresh data when changes occur
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const fetchBlogs = async () => {
-    const blogsResponse = await supabaseClient.from("blogs").select();
-    const featuredBlogResponse = await supabaseClient
-      .from("blogs")
-      .select()
-      .eq("is_featured", true)
-      .single();
+    try {
+      console.log("Fetching blogs...");
+      const blogsResponse = await supabaseClient.from("blogs").select().order('created_at', { ascending: false });
+      
+      if (blogsResponse.error) {
+        console.error("Error fetching blogs:", blogsResponse.error);
+        return;
+      }
+      
+      const featuredBlogResponse = await supabaseClient
+        .from("blogs")
+        .select()
+        .eq("is_featured", true)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
 
-    setFeaturedBlogPost(featuredBlogResponse.data);
-    setBlogsList(blogsResponse?.data);
+      setBlogsList(blogsResponse.data || []);
+      setFeaturedBlogPost(featuredBlogResponse.data || blogsResponse.data?.[0] || null);
+      
+      console.log("Blogs fetched successfully:", blogsResponse.data?.length);
+    } catch (error) {
+      console.error("Error in fetchBlogs:", error);
+    }
   };
 
   const filteredPosts = blogsList.filter((post) => {
     const matchesCategory =
       selectedCategory === "All" || post.category === selectedCategory;
     const matchesSearch =
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.content.toLowerCase().includes(searchQuery.toLowerCase());
+      post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.content?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.excerpt?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -75,8 +106,6 @@ const BlogPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-
-
       {/* Hero Section */}
       <div className="relative h-[400px]">
         <img
@@ -180,7 +209,7 @@ const BlogPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="relative h-64 md:h-auto">
                 <img
-                  src={featuredBlogPost.image_url}
+                  src={featuredBlogPost.image_url || "/default-blog.jpg"}
                   alt={featuredBlogPost.title}
                   className="w-full h-full object-cover"
                 />
@@ -192,7 +221,7 @@ const BlogPage = () => {
               </div>
               <div className="p-8">
                 <span className="inline-block bg-maroon-600 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">
-                  {featuredBlogPost.category}
+                  {featuredBlogPost.category || "General"}
                 </span>
                 <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
                   <a
@@ -203,22 +232,19 @@ const BlogPage = () => {
                   </a>
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  {featuredBlogPost.excerpt}
+                  {featuredBlogPost.excerpt || featuredBlogPost.content?.substring(0, 150) + '...'}
                 </p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                     <User className="h-4 w-4 mr-1" />
-                    <span className="mr-4">{featuredBlogPost.author}</span>
+                    <span className="mr-4">{featuredBlogPost.author || "Admin"}</span>
                     <Calendar className="h-4 w-4 mr-1" />
                     <span>
-                      {moment(featuredBlogPost.timestamptz).format(
+                      {moment(featuredBlogPost.created_at).format(
                         "MMMM Do YYYY"
                       )}
                     </span>
                   </div>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {featuredBlogPost.readTime}
-                  </span>
                 </div>
               </div>
             </div>
@@ -244,13 +270,13 @@ const BlogPage = () => {
             >
               <div className="relative h-48">
                 <img
-                  src={post.image_url}
+                  src={post.image_url || "/default-blog.jpg"}
                   alt={post.title}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-4 left-4">
                   <span className="bg-maroon-600 text-white px-3 py-1 rounded-full text-sm">
-                    {post.category}
+                    {post.category || "General"}
                   </span>
                 </div>
               </div>
@@ -259,16 +285,16 @@ const BlogPage = () => {
                   <a href={`/blog/${post.id}`}>{post.title}</a>
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  {post.excerpt}
+                  {post.excerpt || post.content?.substring(0, 100) + '...'}
                 </p>
                 <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                   <div className="flex items-center">
                     <User className="h-4 w-4 mr-1" />
-                    {post.author}
+                    {post.author || "Admin"}
                   </div>
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-1" />
-                    {moment(post.timestamptz).format(
+                    {moment(post.created_at).format(
                       "MMMM Do YYYY"
                     )}
                   </div>
@@ -287,6 +313,12 @@ const BlogPage = () => {
           ))}
         </motion.div>
 
+        {filteredPosts.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500 dark:text-gray-400">No blog posts found.</p>
+          </div>
+        )}
+
         {/* Newsletter Subscription */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -300,7 +332,7 @@ const BlogPage = () => {
               Subscribe to Our Newsletter
             </h2>
             <p className="text-white/80 mb-6">
-              Get the latest updates from SIIT delivered directly to your inbox.
+              Get the latest updates from CIT delivered directly to your inbox.
             </p>
             <form className="flex flex-col sm:flex-row gap-4">
               <input
