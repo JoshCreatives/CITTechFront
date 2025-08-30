@@ -1,18 +1,12 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState, useEffect } from 'react';
 import { 
   Calendar, 
   User, 
   ArrowLeft, 
   Clock, 
   Share2, 
-  Eye,
-  Heart,
   MessageCircle,
   ArrowUp,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Link as LinkIcon,
   Send,
   Edit3,
   Trash2
@@ -31,8 +25,6 @@ interface BlogPost {
   image_url: string;
   content: any;
   read_time: number;
-  views: number;
-  likes: number;
   comments: number;
 }
 
@@ -52,30 +44,56 @@ interface Comment {
 const BlogPostView = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isLiked, setIsLiked] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
   const [commentAuthor, setCommentAuthor] = useState('');
   const [deviceId, setDeviceId] = useState<string>('');
+  const [postingComment, setPostingComment] = useState(false);
   const { theme } = useTheme();
 
   const postId = typeof window !== 'undefined' ? window.location.pathname.split('/').pop() || '1' : '1';
 
+  // Initialize device ID on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const id = getDeviceId();
+      setDeviceId(id);
+    }
+  }, []);
+
   const fetchPost = async () => {
     setLoading(true); 
     try {
-      const postResponse: any = await supabaseClient.from("blogs").select().eq("id", postId).single();
-      setPost(postResponse.data);
+      const { data, error } = await supabaseClient
+        .from("blogs")
+        .select()
+        .eq("id", postId)
+        .single();
+      
+      if (error) {
+        console.error("Error fetching post:", error);
+        return;
+      }
+      
+      setPost(data);
       
       // Fetch comments for this post
       await fetchComments();
+      
     } catch (error) {
       console.error("Error fetching post:", error);
     } finally {
       setLoading(false);
     }
   };
+
+  // Fetch post when deviceId is available
+  useEffect(() => {
+    if (deviceId) {
+      fetchPost();
+    }
+  }, [deviceId]);
 
   const fetchComments = async () => {
     try {
@@ -97,7 +115,7 @@ const BlogPostView = () => {
           author: comment.author,
           content: comment.content,
           date: formatDate(comment.created_at),
-          likes: comment.likes,
+          likes: comment.likes || 0,
           avatar: comment.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(comment.author)}&background=random`,
           device_id: comment.device_id,
           canEdit: comment.device_id === deviceId,
@@ -151,25 +169,29 @@ const BlogPostView = () => {
 
   const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newComment.trim() || !commentAuthor.trim()) return;
+    if (!newComment.trim() || !commentAuthor.trim() || postingComment) return;
+    
+    setPostingComment(true);
     
     try {
-      // Insert comment into Supabase
+      console.log('Attempting to add comment:', { blog_id: postId, author: commentAuthor, content: newComment, device_id: deviceId });
+      
+      // Insert comment into Supabase - simplified structure
       const { data, error } = await supabaseClient
         .from('blog_comments')
-        .insert([
-          {
-            blog_id: postId,
-            author: commentAuthor,
-            content: newComment,
-            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(commentAuthor)}&background=random`,
-            device_id: deviceId
-          }
-        ])
+        .insert({
+          blog_id: postId,
+          author: commentAuthor,
+          content: newComment,
+          device_id: deviceId
+        })
         .select();
       
+      console.log('Insert response:', { data, error });
+      
       if (error) {
-        console.error('Error adding comment:', error);
+        console.error('Supabase error adding comment:', error);
+        alert(`Error posting comment: ${error.message}. Please check the console for details.`);
         return;
       }
       
@@ -184,8 +206,8 @@ const BlogPostView = () => {
             author: newCommentObj.author,
             content: newCommentObj.content,
             date: 'Just now',
-            likes: newCommentObj.likes,
-            avatar: newCommentObj.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(newCommentObj.author)}&background=random`,
+            likes: newCommentObj.likes || 0,
+            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(newCommentObj.author)}&background=random`,
             device_id: newCommentObj.device_id,
             canEdit: newCommentObj.device_id === deviceId,
             isEditing: false,
@@ -196,9 +218,14 @@ const BlogPostView = () => {
         // Clear the form
         setNewComment('');
         setCommentAuthor('');
+        
+        console.log('Comment added successfully');
       }
     } catch (error) {
-      console.error('Error adding comment:', error);
+      console.error('Unexpected error adding comment:', error);
+      alert('Unexpected error posting comment. Please try again.');
+    } finally {
+      setPostingComment(false);
     }
   };
 
@@ -309,12 +336,6 @@ const BlogPostView = () => {
   };
 
   useLayoutEffect(() => {
-    // Get device ID on component mount
-    if (typeof window !== 'undefined') {
-      setDeviceId(getDeviceId());
-    }
-    fetchPost();
-    
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 500);
     };
@@ -377,10 +398,6 @@ const BlogPostView = () => {
                           <Clock className="h-5 w-5 mr-2" />
                           <span>{post.read_time || 5} min read</span>
                         </div>
-                        <div className="flex items-center">
-                          <Eye className="h-5 w-5 mr-2" />
-                          <span>{post.views || 124} views</span>
-                        </div>
                       </div>
                     </motion.div>
                   </div>
@@ -393,7 +410,7 @@ const BlogPostView = () => {
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                     <motion.a
                       href="/blog"
-                      className="inline-flex items-center text-maroon-600 dark:text-maroon-400 hover:text-maroon-700 dark:hover:text-maroon-300 transition-colors"
+                      className="inline-flex items-center text-maroon-600 dark:text-white hover:text-maroon-700 dark:hover:text-maroon-500 transition-colors"
                       initial={{ x: -20, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.5, duration: 0.5 }}
@@ -403,17 +420,6 @@ const BlogPostView = () => {
                     </motion.a>
                     
                     <div className="flex items-center gap-3">
-                      <button 
-                        onClick={() => setIsLiked(!isLiked)}
-                        className={`p-2 rounded-full ${isLiked 
-                          ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' 
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
-                        }`}
-                      >
-                        <Heart className="h-5 w-5" fill={isLiked ? 'currentColor' : 'none'} />
-                        <span className="sr-only">Like</span>
-                      </button>
-                      
                       <button 
                         onClick={handleShare}
                         className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
@@ -440,16 +446,6 @@ const BlogPostView = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-6">
                         <div className="flex items-center gap-2">
-                          <button 
-                            onClick={() => setIsLiked(!isLiked)}
-                            className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400"
-                          >
-                            <Heart className="h-5 w-5" fill={isLiked ? 'currentColor' : 'none'} />
-                            <span>{post.likes + (isLiked ? 1 : 0)}</span>
-                          </button>
-                        </div>
-                        
-                        <div className="flex items-center gap-2">
                           <MessageCircle className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                           <span>{comments.length} comments</span>
                         </div>
@@ -458,24 +454,12 @@ const BlogPostView = () => {
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-500 dark:text-gray-400">Share:</span>
                         <div className="flex gap-2">
-                          <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                            <Facebook className="h-4 w-4" />
-                            <span className="sr-only">Share on Facebook</span>
-                          </button>
-                          <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-300">
-                            <Twitter className="h-4 w-4" />
-                            <span className="sr-only">Share on Twitter</span>
-                          </button>
-                          <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-blue-700 dark:hover:text-blue-500">
-                            <Linkedin className="h-4 w-4" />
-                            <span className="sr-only">Share on LinkedIn</span>
-                          </button>
                           <button 
                             onClick={handleShare}
                             className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                           >
-                            <LinkIcon className="h-4 w-4" />
-                            <span className="sr-only">Copy link</span>
+                            <Share2 className="h-4 w-4" />
+                            <span className="sr-only">Share</span>
                           </button>
                         </div>
                       </div>
@@ -500,6 +484,7 @@ const BlogPostView = () => {
                           className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-maroon-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                           placeholder="Enter your name"
                           required
+                          disabled={postingComment}
                         />
                       </div>
                       <div className="mb-4">
@@ -514,14 +499,25 @@ const BlogPostView = () => {
                           className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-maroon-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                           placeholder="Share your thoughts..."
                           required
+                          disabled={postingComment}
                         />
                       </div>
                       <button
                         type="submit"
-                        className="inline-flex items-center px-4 py-2 bg-maroon-600 hover:bg-maroon-700 text-white rounded-md transition-colors"
+                        disabled={postingComment}
+                        className="inline-flex items-center px-4 py-2 bg-maroon-600 hover:bg-maroon-700 text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <Send className="h-4 w-4 mr-2" />
-                        Post Comment
+                        {postingComment ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Posting...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="h-4 w-4 mr-2" />
+                            Post Comment
+                          </>
+                        )}
                       </button>
                     </form>
                     
@@ -640,7 +636,7 @@ const BlogPostView = () => {
                 <p className="text-gray-600 dark:text-gray-400 mb-6">The blog post you're looking for doesn't exist.</p>
                 <a 
                   href="/blog" 
-                  className="inline-flex items-center text-maroon-600 dark:text-maroon-400 hover:text-maroon-700 dark:hover:text-maroon-300"
+                  className="inline-flex items-center text-maroon-600 dark:text-white hover:text-maroon-700 dark:hover:text-white"
                 >
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Back to Blog

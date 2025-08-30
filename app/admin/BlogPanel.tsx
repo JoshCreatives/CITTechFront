@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 export default function BlogPanel({ supabaseClient, loading, setLoading }: any) {
   const [blogs, setBlogs] = useState<any[]>([]);
@@ -6,20 +6,63 @@ export default function BlogPanel({ supabaseClient, loading, setLoading }: any) 
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
   const [editExcerpt, setEditExcerpt] = useState("");
-  const [editCategory, setEditCategory] = useState("");
+  const [editCategory, setEditCategory] = useState("Academic News");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState("");
-  const [currentImageUrl, setCurrentImageUrl] = useState(""); // Track current image URL
+  const [currentImageUrl, setCurrentImageUrl] = useState("");
+  const [bucketInitialized, setBucketInitialized] = useState(false);
 
+  const fetchBlogs = useCallback(async () => {
+    try {
+      const { data, error } = await supabaseClient.from("blogs").select();
+      if (error) {
+        console.error("Error fetching blogs:", error);
+        return;
+      }
+      setBlogs(data || []);
+    } catch (error) {
+      console.error("Unexpected error fetching blogs:", error);
+    }
+  }, [supabaseClient]);
+
+  // Initialize bucket on component mount
   useEffect(() => {
+    initializeBucket();
     fetchBlogs();
-    // eslint-disable-next-line
-  }, []);
+  }, [fetchBlogs]);
 
-  async function fetchBlogs() {
-    const res = await supabaseClient.from("blogs").select();
-    setBlogs(res.data || []);
-  }
+  // Function to initialize the bucket
+  const initializeBucket = async () => {
+    try {
+      // Check if bucket exists
+      const { data: buckets, error: bucketError } = await supabaseClient.storage
+        .listBuckets();
+      
+      if (bucketError) {
+        console.error("Error checking buckets:", bucketError);
+        return;
+      }
+      
+      const blogImagesBucket = buckets?.find(b => b.name === 'images');
+      
+      if (!blogImagesBucket) {
+        console.log("Images bucket doesn't exist, creating it...");
+        // Create the bucket if it doesn't exist
+        const { error: createError } = await supabaseClient.storage
+          .createBucket('images', { public: true });
+        
+        if (createError) {
+          console.error("Error creating bucket:", createError);
+          alert("Please create an 'images' bucket in Supabase Storage first");
+          return;
+        }
+      }
+      
+      setBucketInitialized(true);
+    } catch (error) {
+      console.error("Error initializing bucket:", error);
+    }
+  };
 
   function startEdit(post: any) {
     setEditId(post.id);
@@ -28,20 +71,18 @@ export default function BlogPanel({ supabaseClient, loading, setLoading }: any) 
     setEditExcerpt(post.excerpt || "");
     setEditCategory(post.category || "Academic News");
     setImagePreview(post.image_url || "");
-    setCurrentImageUrl(post.image_url || ""); // Store the current image URL
+    setCurrentImageUrl(post.image_url || "");
     setImageFile(null);
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Check if file is an image
       if (!file.type.startsWith('image/')) {
         alert('Please select an image file');
         return;
       }
       
-      // Check file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         alert('Image size should be less than 5MB');
         return;
@@ -56,42 +97,56 @@ export default function BlogPanel({ supabaseClient, loading, setLoading }: any) 
     }
   };
 
-  // Function to delete the old image from storage
+  // Simplified deleteImage function
   async function deleteImage(url: string) {
     try {
-      // Extract the file path from the URL
+      // Extract the file path from the URL more reliably
       const urlParts = url.split('/');
-      const bucketName = 'blog-images';
-      const fileName = urlParts[urlParts.length - 1];
-      const filePath = `blog-images/${fileName}`;
+      const bucketIndex = urlParts.indexOf('images');
+      
+      if (bucketIndex === -1) {
+        throw new Error("URL does not contain images bucket reference");
+      }
+      
+      // Get everything after the bucket name
+      const filePath = urlParts.slice(bucketIndex + 1).join('/');
+      
+      console.log("Attempting to delete:", filePath);
       
       // Delete the file from storage
       const { error } = await supabaseClient.storage
-        .from(bucketName)
+        .from('images')
         .remove([filePath]);
         
       if (error) {
         console.error("Error deleting old image:", error);
-      } else {
-        console.log("Old image deleted successfully");
+        throw error;
       }
+      
+      console.log("Old image deleted successfully");
+      return true;
     } catch (error) {
       console.error("Error in deleteImage function:", error);
+      throw error;
     }
   }
 
   async function uploadImage(file: File): Promise<string> {
     try {
+      if (!bucketInitialized) {
+        throw new Error("Storage bucket is not initialized yet");
+      }
+      
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
-      const filePath = `blog-images/${fileName}`;
+      const filePath = fileName;
 
       // Upload the file
       const { error: uploadError } = await supabaseClient.storage
-        .from('blog-images')
+        .from('images')
         .upload(filePath, file, {
           cacheControl: '3600',
-          upsert: true
+          upsert: true // Allow overwriting if file exists
         });
 
       if (uploadError) {
@@ -101,9 +156,10 @@ export default function BlogPanel({ supabaseClient, loading, setLoading }: any) 
 
       // Get public URL
       const { data: { publicUrl } } = supabaseClient.storage
-        .from('blog-images')
+        .from('images')
         .getPublicUrl(filePath);
 
+      console.log("Image uploaded successfully. Public URL:", publicUrl);
       return publicUrl;
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -122,23 +178,37 @@ export default function BlogPanel({ supabaseClient, loading, setLoading }: any) 
     setLoading(true);
     
     try {
-      let imageUrl = currentImageUrl; // Start with the current image URL
+      let imageUrl = currentImageUrl;
 
-      // Upload new image if selected
-      if (imageFile) {
+      // Handle image changes only if bucket is initialized
+      if (imageFile && bucketInitialized) {
         try {
-          // Delete the old image if it exists
-          if (currentImageUrl) {
+          console.log("Starting image upload process...");
+          
+          // Upload the new image first
+          imageUrl = await uploadImage(imageFile);
+          console.log("New image uploaded successfully:", imageUrl);
+          
+          // Only delete the old image after successful upload and if it's different
+          if (currentImageUrl && currentImageUrl !== imageUrl) {
+            console.log("Deleting old image:", currentImageUrl);
             await deleteImage(currentImageUrl);
           }
-          
-          // Upload the new image
-          imageUrl = await uploadImage(imageFile);
-          console.log("Image uploaded successfully:", imageUrl);
         } catch (uploadError) {
-          console.error("Image upload failed:", uploadError);
-          alert("Image upload failed. The post will be saved without the new image.");
+          console.error("Image process failed:", uploadError);
+          alert(`Image upload failed: ${uploadError.message}. The post will be saved with the existing image.`);
           // Keep the existing image URL if upload fails
+          imageUrl = currentImageUrl;
+        }
+      } else if (!imagePreview && currentImageUrl && bucketInitialized) {
+        // If user removed the image preview and there was a previous image
+        try {
+          await deleteImage(currentImageUrl);
+          imageUrl = "";
+        } catch (deleteError) {
+          console.error("Failed to delete old image:", deleteError);
+          alert("Failed to delete old image, but post will be updated without image.");
+          imageUrl = "";
         }
       }
 
@@ -147,14 +217,20 @@ export default function BlogPanel({ supabaseClient, loading, setLoading }: any) 
         title: editTitle, 
         content: editContent,
         excerpt: editExcerpt,
-        category: editCategory
+        category: editCategory,
+        updated_at: new Date().toISOString()
       };
 
-      // Only update image_url if we have a new image or want to keep existing
-      if (imageUrl) {
+      // Only add image_url if we're not in the process of handling images
+      // or if bucket is not initialized
+      if (!bucketInitialized && currentImageUrl) {
+        updateData.image_url = currentImageUrl;
+      } else if (imageUrl !== undefined) {
         updateData.image_url = imageUrl;
       }
 
+      console.log("Updating blog post with data:", updateData);
+      
       const { error } = await supabaseClient
         .from("blogs")
         .update(updateData)
@@ -183,7 +259,7 @@ export default function BlogPanel({ supabaseClient, loading, setLoading }: any) 
     setEditTitle("");
     setEditContent("");
     setEditExcerpt("");
-    setEditCategory("");
+    setEditCategory("Academic News");
     setImagePreview("");
     setCurrentImageUrl("");
     setImageFile(null);
@@ -192,15 +268,23 @@ export default function BlogPanel({ supabaseClient, loading, setLoading }: any) 
   const removeImage = () => {
     setImagePreview("");
     setImageFile(null);
-    
-    // If we're removing an image that was previously saved, we should delete it from storage
-    if (currentImageUrl) {
-      // We'll delete the old image when saving, so just clear the preview for now
-    }
   };
 
   return (
     <div className="space-y-6">
+      {!bucketInitialized && (
+        <div className="bg-yellow-900 text-yellow-200 p-4 rounded-lg">
+          <p className="font-semibold">Storage Not Ready</p>
+          <p>Please make sure you have created an "images" bucket in your Supabase Storage.</p>
+          <button 
+            onClick={initializeBucket}
+            className="mt-2 px-4 py-2 bg-yellow-700 hover:bg-yellow-600 text-white rounded-lg transition-colors"
+          >
+            Retry Initialization
+          </button>
+        </div>
+      )}
+      
       <div className="grid grid-cols-1 gap-4">
         {blogs.map((post: any) =>
           editId === post.id ? (
@@ -239,15 +323,21 @@ export default function BlogPanel({ supabaseClient, loading, setLoading }: any) 
                     accept="image/*"
                     onChange={handleImageChange}
                     className="hidden"
+                    disabled={!bucketInitialized}
                   />
                   <label
                     htmlFor="image-upload"
-                    className="px-4 py-2 bg-gray-700 text-white rounded-lg cursor-pointer hover:bg-gray-600 transition-colors text-center"
+                    className={`px-4 py-2 text-white rounded-lg cursor-pointer transition-colors text-center ${
+                      bucketInitialized 
+                        ? 'bg-gray-700 hover:bg-gray-600' 
+                        : 'bg-gray-800 cursor-not-allowed opacity-50'
+                    }`}
                   >
                     {imagePreview ? 'Change Image' : 'Upload Image'}
                   </label>
                   <p className="text-xs text-gray-400">
                     Supported formats: JPG, PNG, GIF. Max size: 5MB
+                    {!bucketInitialized && " (Storage not ready)"}
                   </p>
                 </div>
               </div>
