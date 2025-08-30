@@ -333,6 +333,8 @@ export default function ClassSchedules() {
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify({ email: studentEmail, code: codeInput }),
       // });
+
+      // TODO if code is verified, send class schedule to student
       
     } catch (err) {
       console.error('Code verification error:', err);
