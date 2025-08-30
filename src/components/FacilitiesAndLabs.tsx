@@ -587,63 +587,6 @@ export default function FacilitiesLabs() {
             <p className="text-gray-600 dark:text-gray-300">Try adjusting your filters to see more facilities.</p>
           </motion.div>
         )}
-
-        {/* Booking Information */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={loaded ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="mt-16 grid md:grid-cols-2 gap-8"
-        >
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700"
-          >
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Facility Booking</h2>
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-medium text-gray-900 dark:text-white">How to Book</h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">Use the online booking system or contact facility management</p>
-                <p className="text-maroon-600 dark:text-maroon-500 text-sm">facilities@cit.edu | (555) 123-4580</p>
-              </div>
-              <div>
-                <h3 className="font-medium text-gray-900 dark:text-white">Booking Requirements</h3>
-                <ul className="text-gray-600 dark:text-gray-300 text-sm space-y-1">
-                  <li>• Valid student or faculty ID</li>
-                  <li>• Advance booking (24-48 hours)</li>
-                  <li>• Purpose and duration specification</li>
-                  <li>• Supervisor approval for research labs</li>
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="bg-gradient-to-r from-maroon-600 to-maroon-700 dark:from-maroon-700 dark:to-maroon-800 rounded-xl p-6 text-white"
-          >
-            <h2 className="text-xl font-bold mb-4">Need Help?</h2>
-            <p className="text-maroon-100 mb-6">
-              Our facility management team is here to help you make the most of our resources.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-maroon-700 px-6 py-2 rounded-lg font-semibold hover:bg-maroon-50 transition-colors duration-200"
-              >
-                Book Now
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-6 py-2 rounded-lg font-semibold hover:bg-white hover:text-maroon-700 transition-all duration-200"
-              >
-                Virtual Tour
-              </motion.button>
-            </div>
-          </motion.div>
-        </motion.div>
       </div>
     </div>
   );
