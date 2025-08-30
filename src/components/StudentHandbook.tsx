@@ -397,7 +397,7 @@ export default function CITHandbook() {
             className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900 p-6 border border-gray-200 dark:border-gray-700"
           >
             <div className="flex items-center mb-4">
-              <Phone className="h-6 w-6 text-maroon-600 dark:text-maroon-400 mr-2" />
+              <Phone className="h-6 w-6 text-maroon-600 dark:text-maroon-500 mr-2" />
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Emergency Contacts</h3>
             </div>
             <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
@@ -413,7 +413,7 @@ export default function CITHandbook() {
             className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900 p-6 border border-gray-200 dark:border-gray-700"
           >
             <div className="flex items-center mb-4">
-              <Mail className="h-6 w-6 text-maroon-600 dark:text-maroon-400 mr-2" />
+              <Mail className="h-6 w-6 text-maroon-600 dark:text-maroon-500 mr-2" />
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Important Emails</h3>
             </div>
             <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
@@ -429,14 +429,14 @@ export default function CITHandbook() {
             className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900 p-6 border border-gray-200 dark:border-gray-700"
           >
             <div className="flex items-center mb-4">
-              <FileText className="h-6 w-6 text-maroon-600 dark:text-maroon-400 mr-2" />
+              <FileText className="h-6 w-6 text-maroon-600 dark:text-maroon-500 mr-2" />
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Quick Links</h3>
             </div>
             <div className="space-y-2 text-sm">
-              <p><a href="#" className="text-maroon-600 dark:text-maroon-400 hover:underline">Student Portal</a></p>
-              <p><a href="#" className="text-maroon-600 dark:text-maroon-400 hover:underline">Course Catalog</a></p>
-              <p><a href="#" className="text-maroon-600 dark:text-maroon-400 hover:underline">Academic Calendar</a></p>
-              <p><a href="#" className="text-maroon-600 dark:text-maroon-400 hover:underline">Library Resources</a></p>
+              <p><a href="#" className="text-maroon-600 dark:text-white hover:underline">Student Portal</a></p>
+              <p><a href="#" className="text-maroon-600 dark:text-white hover:underline">Course Catalog</a></p>
+              <p><a href="#" className="text-maroon-600 dark:text-white hover:underline">Academic Calendar</a></p>
+              <p><a href="#" className="text-maroon-600 dark:text-white hover:underline">Library Resources</a></p>
             </div>
           </motion.div>
         </motion.div>

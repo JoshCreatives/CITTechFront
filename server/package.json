@@ -1,0 +1,39 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "description": "SIIT Class Schedules Backend",
+    "main": "index.ts",
+    "scripts": {
+        "start": "ts-node index.ts",
+        "dev": "nodemon index.ts",
+        "build": "tsc",
+        "test": "jest"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.39.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "ejs": "^3.1.9",
+        "express": "^4.18.2",
+        "express-rate-limit": "^6.7.0",
+        "googleapis": "^120.0.0",
+        "helmet": "^7.2.0",
+        "juice": "^8.1.0",
+        "nodemailer": "^6.9.5"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.17",
+        "@types/ejs": "^3.1.2",
+        "@types/express": "^4.17.21",
+        "@types/express-rate-limit": "^5.1.3",
+        "@types/helmet": "^0.0.48",
+        "@types/node": "^20.11.19",
+        "@types/nodemailer": "^6.4.7",
+        "nodemon": "^3.0.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.3.3"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    }
+}

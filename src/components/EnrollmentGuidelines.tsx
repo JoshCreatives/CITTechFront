@@ -133,9 +133,9 @@ const OnlineApplication = () => {
             className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-2xl text-center max-w-sm mx-4 border border-gray-200 dark:border-gray-700"
           >
             <div className="flex justify-center mb-4">
-              <AlertCircle className="h-8 w-8 text-maroon-600 dark:text-maroon-400" />
+              <AlertCircle className="h-8 w-8 text-maroon-600 dark:text-maroon-500" />
             </div>
-            <h2 className="text-xl font-bold text-maroon-600 dark:text-maroon-400 mb-4">
+            <h2 className="text-xl font-bold text-maroon-600 dark:text-maroon-500 mb-4">
               Incomplete Information
             </h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
@@ -168,9 +168,9 @@ const OnlineApplication = () => {
             className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-2xl text-center max-w-sm mx-4 border border-gray-200 dark:border-gray-700"
           >
             <div className="flex justify-center mb-4">
-              <CheckCircle className="h-8 w-8 text-maroon-600 dark:text-maroon-400" />
+              <CheckCircle className="h-8 w-8 text-maroon-600 dark:text-maroon-500" />
             </div>
-            <h2 className="text-xl font-bold text-maroon-600 dark:text-maroon-400 mb-4">
+            <h2 className="text-xl font-bold text-maroon-600 dark:text-maroon-500 mb-4">
               Enrollment Submitted!
             </h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">

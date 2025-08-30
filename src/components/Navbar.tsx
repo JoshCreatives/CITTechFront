@@ -81,11 +81,14 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
+  const dropdownRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       // Close dropdowns if clicked outside
-      if (activeDropdown) {
+      if (activeDropdown && 
+          dropdownRefs.current[activeDropdown] && 
+          !dropdownRefs.current[activeDropdown]?.contains(e.target as Node)) {
         setActiveDropdown(null);
       }
       
@@ -128,6 +131,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   };
 
   const handleDropdownClick = (title: string) => {
+    // Toggle the dropdown - if it's already active, hide it
     setActiveDropdown(activeDropdown === title ? null : title);
   };
 
@@ -195,7 +199,11 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-4">
             {navItems.map((item) => (
-              <div key={item.title} className="relative">
+              <div 
+                key={item.title} 
+                className="relative"
+                ref={el => dropdownRefs.current[item.title] = el}
+              >
                 {item.dropdownItems ? (
                   <button
                     className={`flex items-center px-3 py-2 text-base font-semibold tracking-wide transition-colors whitespace-nowrap ${
