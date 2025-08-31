@@ -40,11 +40,14 @@ export async function POST(request: NextRequest) {
   try {
     const req = await request.json()
     const email = req.email;
+    const name = req.name
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      console.warn('Invalid email attempt:', email);
-      return NextResponse.json({ message: 'Invalid format' }, { status: 400 });
-    }
+    console.log('senc code to', req)
+
+    // if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    //   console.warn('Invalid email attempt:', email);
+    //   return NextResponse.json({ message: 'Invalid format' }, { status: 400 });
+    // }
 
     // Check if email exists in students table
     // COMMENTED FOR TESTING, uncomment when deploying
@@ -65,8 +68,7 @@ export async function POST(request: NextRequest) {
     const { error: codeError } = await supabaseClient
       .from('verification_codes')
       .upsert({
-        // email,
-        email: "johnedwardescuyos@gmail.com",
+        email,
         code,
         expires_at: expiresAt.toISOString(),
         used: false,
@@ -78,8 +80,7 @@ export async function POST(request: NextRequest) {
     // Send email with verification code
     const emailHtml = await renderEmailTemplate({
       code,
-      // studentName: student.full_name
-      studentName: "John Escuyos"
+      studentName: name
     });
 
     const mailOptions = {

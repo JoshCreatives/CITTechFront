@@ -57,7 +57,7 @@ export default function ClassSchedules() {
   const [loaded, setLoaded] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [studentEmail, setStudentEmail] = useState<string>("");
-  const [, setStudentName] = useState<string>("");
+  const [studentName, setStudentName] = useState<string>("");
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 100);
@@ -336,7 +336,7 @@ export default function ClassSchedules() {
       const response = await fetch("/api/verification/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: studentEmail }),
+        body: JSON.stringify({ email: studentEmail, name: studentName }),
       });
 
       console.log("send code response", response);
