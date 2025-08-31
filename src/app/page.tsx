@@ -9,7 +9,7 @@ import Features from "../components/Features";
 import EnrollmentBanner from "../components/EnrollmentBanner";
 import VideoShowcase from "../components/VideoShowcase";
 import PresidentBanner from "../components/PresidentBanner";
-import BlogPostView from "../components/BlogPostView";
+import BlogPostView from "./blog/[id]/BlogPostView";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -64,10 +64,6 @@ function App() {
         </div>
       </div>
     );
-  }
-
-  if (pathname?.startsWith("/blog/") && pathname !== "/blog") {
-    return <BlogPostView />;
   }
 
   return (
