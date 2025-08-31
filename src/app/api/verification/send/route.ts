@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     const email = req.email;
     const name = req.name
 
-    console.log('senc code to', req)
+    console.log('send code to', req)
 
     // if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     //   console.warn('Invalid email attempt:', email);

@@ -323,6 +323,7 @@ export default function ClassSchedules() {
         alert("Student email not found.");
         return;
       }
+
       setStudentEmail(student?.email);
       setStudentName(student?.name || "");
 
@@ -336,7 +337,7 @@ export default function ClassSchedules() {
       const response = await fetch("/api/verification/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: studentEmail, name: studentName }),
+        body: JSON.stringify({ email: student?.email, name: student?.name }),
       });
 
       console.log("send code response", response);
