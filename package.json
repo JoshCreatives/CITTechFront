@@ -5,10 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "start": "react-scripts start",
+    "start": "next start",
     "build": "next build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@headlessui/react": "^2.2.1",

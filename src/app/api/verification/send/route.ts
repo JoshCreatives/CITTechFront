@@ -27,7 +27,6 @@ transporter.verify((error) => {
 // Email Template Renderer
 const renderEmailTemplate = async (data: { code: string; studentName?: string }) => {
   const templatePath = path.join(process.cwd(), 'src/app/api/verification/templates', 'verification-email.ejs');
-  console.log('templatePath: ', templatePath)
   const html = await ejs.renderFile(templatePath, data);
   return juice(html);
 };
