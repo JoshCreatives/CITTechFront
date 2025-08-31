@@ -54,7 +54,7 @@ const BlogPostView = () => {
   const [postingComment, setPostingComment] = useState(false);
   const param = useParams();
 
-  const postId = param.id;
+  const postId = param?.id;
 
   // Initialize device ID on component mount
   useEffect(() => {

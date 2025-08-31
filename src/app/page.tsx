@@ -9,7 +9,6 @@ import Features from "../components/Features";
 import EnrollmentBanner from "../components/EnrollmentBanner";
 import VideoShowcase from "../components/VideoShowcase";
 import PresidentBanner from "../components/PresidentBanner";
-import BlogPostView from "./blog/[id]/BlogPostView";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,15 +21,23 @@ function App() {
     setIsLoading(true);
     setShowAnimation(true);
 
+    const fadingLoadingPage = document.getElementById("page-loading-container");
+    if (fadingLoadingPage) {
+      setTimeout(() => {
+        fadingLoadingPage.classList.remove("opacity-100");
+        fadingLoadingPage.classList.add("opacity-0");
+      }, 1000);
+    }
+
     // Minimum display time for animation (1 second)
     const animationTimer = setTimeout(() => {
       setShowAnimation(false);
-    }, 1000);
+    }, 3000);
 
     // Maximum loading time (2 seconds)
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 3000);
 
     return () => {
       clearTimeout(animationTimer);
@@ -47,24 +54,25 @@ function App() {
     setIsLoading(false);
   };
 
-  if (isLoading || showAnimation) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-white transition-colors duration-300 z-[9999] overflow-hidden">
-        <div className="flex flex-col items-center justify-center w-full h-full">
-          <video
-            src="/CIT LOGO ANIMATION.mp4" // Ensure this path is correct
-            autoPlay
-            muted
-            playsInline
-            className="w-48 h-48 sm:w-64 sm:h-64 max-w-full"
-            onEnded={handleAnimationEnd}
-            onError={handleAnimationError}
-            key={pathname} // Force re-render on route change
-          />
-        </div>
+  const pageLoader = () => (
+    <div
+      id="page-loading-container"
+      className="fixed z-100 inset-0 flex items-center justify-center bg-white dark:bg-white z-[9999] overflow-hidden opacity-100 transition-opacity duration-500 ease-out"
+    >
+      <div className="flex flex-col items-center justify-center w-full h-full">
+        <video
+          src="/CIT LOGO ANIMATION.mp4" // Ensure this path is correct
+          autoPlay
+          muted
+          playsInline
+          className="w-48 h-48 sm:w-64 sm:h-64 max-w-full"
+          onEnded={handleAnimationEnd}
+          onError={handleAnimationError}
+          key={pathname} // Force re-render on route change
+        />
       </div>
-    );
-  }
+    </div>
+  );
 
   return (
     <>
@@ -75,6 +83,8 @@ function App() {
       <Blog />
       <VideoShowcase />
       <Features />
+
+      {(isLoading || showAnimation) && pageLoader()}
     </>
   );
 }
