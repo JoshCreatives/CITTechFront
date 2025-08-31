@@ -133,10 +133,10 @@ const Blog = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Latest News & Updates
+            Events and updates
           </h2>
           <a
-            href="/blog"
+            href="/campus-life"
             className="flex items-center text-gray-900 dark:text-white hover:text-green-500 dark:hover:text-green-400 transition-colors"
           >
             View All Posts

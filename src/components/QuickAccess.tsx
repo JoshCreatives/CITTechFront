@@ -33,7 +33,7 @@ const QuickAccess = () => {
           className="text-center mb-12"
         >
           <h2 className="text-4xl font-bold text-maroon-600 dark:text-white mb-4">
-            Events
+            Quick Links
           </h2>
           <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
             Explore upcoming events, campus activities, and more at SIIT.

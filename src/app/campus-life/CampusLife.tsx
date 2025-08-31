@@ -12,8 +12,15 @@ import {
   MapPin,
   Calendar,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const CampusLife = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
   const activities = [
     {
       category: "Student Organizations",
@@ -88,14 +95,61 @@ const CampusLife = () => {
     },
   ];
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }
+    }
+  };
+
+  const fadeInVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
       {/* Hero Section */}
-      <div className="relative h-[500px]">
-        <img src="/Hero.jpg" alt="Requirements" className="w-full h-full object-cover" />
+      <div className="relative h-[500px] overflow-hidden">
+        <motion.img 
+          src="/Hero.jpg" 
+          alt="Campus Life" 
+          className="w-full h-full object-cover"
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-900/75 dark:from-gray-900/90 dark:to-gray-900/60 flex items-center">
           <div className="max-w-7xl mx-auto px-4 w-full">
-            <div className="max-w-2xl">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="max-w-2xl"
+            >
               <h1 className="text-5xl font-bold text-white mb-6">Life of CIT</h1>
               <p className="text-xl text-white/90 mb-8">
                 Experience the vibrant CIT Department where technology, learning, and lasting connections come together.
@@ -118,23 +172,26 @@ const CampusLife = () => {
                   Upcoming Events
                 </motion.a>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
 
       {/* Student Life Highlights */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
         className="py-16 bg-white dark:bg-gray-800"
       >
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+          <motion.h2 
+            variants={itemVariants}
+            className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white"
+          >
             Student Life Highlights
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { icon: <Users className="h-8 w-8" />, title: "40+ Student Organizations" },
@@ -144,10 +201,7 @@ const CampusLife = () => {
             ].map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
+                variants={itemVariants}
                 className="text-center"
               >
                 <div className="bg-maroon-600 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-white">
@@ -158,14 +212,14 @@ const CampusLife = () => {
             ))}
           </div>
         </div>
-      </motion.div>
+      </motion.section>
 
       {/* Student Organizations */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={containerVariants}
         id="organizations"
         className="py-16 bg-gray-50 dark:bg-gray-900"
       >
@@ -173,10 +227,7 @@ const CampusLife = () => {
           {activities.map((section, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
+              variants={itemVariants}
               className="mb-16"
             >
               <h2 className="text-3xl font-bold mb-8 text-maroon-600 dark:text-white">
@@ -188,14 +239,16 @@ const CampusLife = () => {
                     key={idx}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: idx * 0.2 }}
+                    transition={{ duration: 0.6, delay: idx * 0.1 }}
                     viewport={{ once: true }}
                     className="relative group overflow-hidden rounded-lg shadow-lg"
                   >
-                    <img
+                    <motion.img
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-64 object-cover"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.4 }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent flex items-end">
                       <div className="p-6">
@@ -209,28 +262,29 @@ const CampusLife = () => {
             </motion.div>
           ))}
         </div>
-      </motion.div>
+      </motion.section>
 
       {/* Campus Facilities */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
         className="py-16 bg-white dark:bg-gray-800"
       >
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+          <motion.h2 
+            variants={itemVariants}
+            className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white"
+          >
             Campus Facilities
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {facilities.map((facility, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
+                variants={itemVariants}
+                whileHover={{ y: -5 }}
                 className="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg backdrop-blur-sm hover:shadow-md transition-shadow"
               >
                 <div className="bg-maroon-600 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4 text-white">
@@ -244,35 +298,38 @@ const CampusLife = () => {
             ))}
           </div>
         </div>
-      </motion.div>
+      </motion.section>
 
       {/* Upcoming Events */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
         id="events"
         className="py-16 bg-gray-50 dark:bg-gray-900"
       >
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+          <motion.h2 
+            variants={itemVariants}
+            className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white"
+          >
             Upcoming Events
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {events.map((event, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
+                variants={itemVariants}
+                whileHover={{ y: -5 }}
                 className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
               >
-                <img
+                <motion.img
                   src={event.image}
                   alt={event.title}
                   className="w-full h-48 object-cover"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.4 }}
                 />
                 <div className="p-6">
                   <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
@@ -287,14 +344,14 @@ const CampusLife = () => {
             ))}
           </div>
         </div>
-      </motion.div>
+      </motion.section>
 
       {/* Campus Map */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeInVariants}
         className="py-16 bg-white dark:bg-gray-800"
       >
         <div className="max-w-7xl mx-auto px-4">
@@ -310,18 +367,25 @@ const CampusLife = () => {
                 </p>
               </div>
             </div>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3932.0617841326753!2d126.04455407583148!3d9.76083427710273!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3303f9a6c347883f%3A0x74507dc57a892747!2sSiargao%20Island%20Institute%20of%20Technology!5e0!3m2!1sen!2sph!4v1741682246576!5m2!1sen!2sph"
-              width="100%"
-              height="400"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              className="rounded-lg shadow"
-            ></iframe>
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3932.0617841326753!2d126.04455407583148!3d9.76083427710273!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3303f9a6c347883f%3A0x74507dc57a892747!2sSiargao%20Island%20Institute%20of%20Technology!5e0!3m2!1sen!2sph!4v1741682246576!5m2!1sen!2sph"
+                width="100%"
+                height="400"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                className="rounded-lg shadow"
+              ></iframe>
+            </motion.div>
           </div>
         </div>
-      </motion.div>
+      </motion.section>
     </div>
   );
 };

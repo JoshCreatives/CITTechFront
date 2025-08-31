@@ -21,7 +21,182 @@ interface Exhibit {
 }
 
 const exhibits: Exhibit[] = [
-  // ... exhibits data remains unchanged
+   {
+    id: "1",
+    title: "Virtual Reality Learning Environment",
+    description: "Immersive VR platform for educational experiences, allowing students to explore historical sites, conduct virtual lab experiments, and collaborate in 3D spaces.",
+    category: "Innovation",
+    location: "Innovation Center - Hall A",
+    date: "2025-01-15",
+    duration: "Permanent Exhibition",
+    visitors: 0,
+    image: "/exi3.jpg",
+    features: [
+      "360-degree immersive environments",
+      "Multi-user collaboration spaces",
+      "Haptic feedback integration",
+      "Educational content library",
+      "Real-time performance analytics"
+    ],
+    technologies: ["Unity 3D", "Oculus SDK", "WebRTC", "Node.js", "MongoDB"],
+    presenter: "Dr. Sarah Chen",
+    department: "Computer Science",
+    interactive: true
+  },
+  {
+    id: "2",
+    title: "Cybersecurity Command Center",
+    description: "Live demonstration of network security monitoring, threat detection, and incident response using real-time data visualization and AI-powered analysis tools.",
+    category: "Research",
+    location: "Security Lab - Room 101",
+    date: "2025-01-20",
+    duration: "Daily Demos: 10 AM - 4 PM",
+    visitors: 0,
+    image: "/exi2.jpg",
+    features: [
+      "Real-time threat monitoring",
+      "AI-powered anomaly detection",
+      "Interactive security dashboards",
+      "Penetration testing demonstrations",
+      "Incident response simulations"
+    ],
+    technologies: ["Python", "Elasticsearch", "Kibana", "Wireshark", "TensorFlow"],
+    presenter: "Dr. Emily Johnson",
+    department: "Cybersecurity",
+    interactive: true
+  },
+  {
+    id: "3",
+    title: "Quantum Computing Simulator",
+    description: "Interactive quantum computing simulator that demonstrates quantum algorithms, superposition, and entanglement concepts through visual representations.",
+    category: "Research",
+    location: "Physics Lab - Room 250",
+    date: "2025-02-01",
+    duration: "Weekdays: 9 AM - 5 PM",
+    visitors: 0,
+    image: "/exi1.jpg",
+    features: [
+      "Quantum circuit visualization",
+      "Algorithm simulation interface",
+      "Educational quantum games",
+      "Performance comparison tools",
+      "Research collaboration platform"
+    ],
+    technologies: ["Qiskit", "Python", "React", "D3.js", "WebGL"],
+    presenter: "Prof. Michael Rodriguez",
+    department: "Computer Science",
+    interactive: true
+  },
+  {
+    id: "4",
+    title: "IoT Smart Campus Infrastructure",
+    description: "Comprehensive display of Internet of Things devices deployed across campus for environmental monitoring, energy management, and facility optimization.",
+    category: "Hardware",
+    location: "Engineering Building - Lobby",
+    date: "2025-02-10",
+    duration: "24/7 Live Monitoring",
+    visitors: 0,
+    image: "/exi4.jpg",
+    features: [
+      "Real-time sensor data visualization",
+      "Energy consumption analytics",
+      "Environmental quality monitoring",
+      "Predictive maintenance alerts",
+      "Mobile app integration"
+    ],
+    technologies: ["Arduino", "Raspberry Pi", "LoRaWAN", "AWS IoT", "React Native"],
+    presenter: "Prof. James Wilson",
+    department: "Network Administration",
+    interactive: true
+  },
+  {
+    id: "5",
+    title: "AI-Powered Medical Diagnosis System",
+    description: "Machine learning system that assists in medical image analysis and diagnosis, demonstrating the application of AI in healthcare technology.",
+    category: "Innovation",
+    location: "Medical Informatics Lab",
+    date: "2025-02-15",
+    duration: "Guided Tours: 11 AM, 2 PM, 4 PM",
+    visitors: 0,
+    image: "/exi5.jpg",
+    features: [
+      "Medical image analysis",
+      "Pattern recognition algorithms",
+      "Diagnostic accuracy metrics",
+      "Integration with hospital systems",
+      "Privacy-preserving techniques"
+    ],
+    technologies: ["TensorFlow", "OpenCV", "Python", "DICOM", "Flask"],
+    presenter: "Dr. Lisa Thompson",
+    department: "Data Science",
+    interactive: false
+  },
+  {
+    id: "6",
+    title: "Student Innovation Showcase",
+    description: "Rotating exhibition featuring the best student projects from various departments, including mobile apps, web platforms, and hardware prototypes.",
+    category: "Student Work",
+    location: "Student Center - Gallery",
+    date: "2025-03-01",
+    duration: "Monthly Rotation",
+    visitors: 0,
+    image: "/exi6.jpg",
+    features: [
+      "Interactive project demonstrations",
+      "Student presentation sessions",
+      "Peer voting system",
+      "Industry mentor feedback",
+      "Career opportunity connections"
+    ],
+    technologies: ["Various", "React", "Flutter", "Arduino", "Unity"],
+    presenter: "Student Teams",
+    department: "All Departments",
+    interactive: true
+  },
+  {
+    id: "7",
+    title: "Blockchain Technology Demo",
+    description: "Live demonstration of blockchain applications including cryptocurrency transactions, smart contracts, and decentralized applications (DApps).",
+    category: "Software",
+    location: "Blockchain Lab - Room 180",
+    date: "2025-03-10",
+    duration: "Weekdays: 1 PM - 5 PM",
+    visitors: 0,
+    image: "/exi7.jpg",
+    features: [
+      "Live blockchain transactions",
+      "Smart contract deployment",
+      "DApp development showcase",
+      "Cryptocurrency wallet demo",
+      "Mining process visualization"
+    ],
+    technologies: ["Ethereum", "Solidity", "Web3.js", "React", "Node.js"],
+    presenter: "Prof. David Kim",
+    department: "Software Engineering",
+    interactive: true
+  },
+  {
+    id: "8",
+    title: "Robotics and Automation Lab",
+    description: "Interactive robotics exhibition featuring autonomous robots, industrial automation systems, and human-robot interaction demonstrations.",
+    category: "Hardware",
+    location: "Robotics Lab - Building C",
+    date: "2025-03-15",
+    duration: "Daily Shows: 10 AM, 1 PM, 3 PM",
+    visitors: 0,
+    image: "/exi8.jpg",
+    features: [
+      "Autonomous navigation robots",
+      "Industrial robotic arms",
+      "Human-robot collaboration",
+      "Computer vision integration",
+      "Voice command interfaces"
+    ],
+    technologies: ["ROS", "Python", "OpenCV", "Arduino", "Raspberry Pi"],
+    presenter: "Engineering Faculty",
+    department: "Computer Science",
+    interactive: true
+  }
 ];
 
 const categoryColors = {
