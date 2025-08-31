@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Clock, MapPin, Calendar, Users, BookOpen, Search, Download } from 'lucide-react';
+import { Clock, MapPin, Calendar, Users, BookOpen } from 'lucide-react';
 
 interface ClassSession {
   id: string;
@@ -177,11 +177,11 @@ const classSchedules: ClassSession[] = [
 ];
 
 export default function ClassSchedules() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedDepartment, setSelectedDepartment] = useState('Subject');
-  const [selectedYearLevel, setSelectedYearLevel] = useState('Year Level');
-  const [selectedBatch, setSelectedBatch] = useState('Batch');
-  const [selectedDay, setSelectedDay] = useState('Day');
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const [selectedDepartment, setSelectedDepartment] = useState('Subject');
+  // const [selectedYearLevel, setSelectedYearLevel] = useState('Year Level');
+  // const [selectedBatch, setSelectedBatch] = useState('Batch');
+  // const [selectedDay, setSelectedDay] = useState('Day');
   const [studentId, setStudentId] = useState('');
   const [showStudentSchedule, setShowStudentSchedule] = useState(false);
   const [phoneInput, setPhoneInput] = useState('');
@@ -191,10 +191,10 @@ export default function ClassSchedules() {
   const [generatedCode, setGeneratedCode] = useState('');
   const [codeError, setCodeError] = useState('');
 
-  const departments = ['Subject', ...Array.from(new Set(classSchedules.map(c => c.department)))];
-  const yearLevels = ['Year Level', '4th Year BSIT', '3rd Year BSIT', '2nd Year BSIT', '1st Year BSIT'];
-  const batches = ['Batch', 'Batch 1', 'Batch 2'];
-  const days = ['Day', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  // const departments = ['Subject', ...Array.from(new Set(classSchedules.map(c => c.department)))];
+  // const yearLevels = ['Year Level', '4th Year BSIT', '3rd Year BSIT', '2nd Year BSIT', '1st Year BSIT'];
+  // const batches = ['Batch', 'Batch 1', 'Batch 2'];
+  // const days = ['Day', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
   // Only these IDs are valid for showing a schedule
   const allowedStudentIds = ["1220295", "1220899", "1220094", "1220024"];
@@ -241,7 +241,8 @@ export default function ClassSchedules() {
         body: JSON.stringify({ phone, code }),
       });
       alert('Verification code sent to your mobile number.');
-    } catch (err) {
+    } catch (error: any) {
+      console.error(error)
       setVerificationSent(false);
       setCodeError('Failed to send SMS. Please try again.');
       alert('Failed to send SMS. Please try again.');

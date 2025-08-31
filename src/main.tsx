@@ -1,21 +1,21 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import App from './App.tsx';
-import AdminDashboard from '../app/admin/AdminDashboard.tsx'; // ✅ Import admin
+// import { StrictMode } from 'react';
+// import { createRoot } from 'react-dom/client';
+// import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import App from './app/page.tsx';
+// import AdminDashboard from '../app/admin/AdminDashboard.tsx'; // ✅ Import admin
 
-import './index.css';
+// import './index.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        {/* Public site */}
-        <Route path="/*" element={<App />} />
+// createRoot(document.getElementById('root')!).render(
+//   <StrictMode>
+//     <BrowserRouter>
+//       <Routes>
+//         {/* Public site */}
+//         <Route path="/*" element={<App />} />
 
-        {/* Admin page (completely separate from main site) */}
-        <Route path="/admin" element={<AdminDashboard />} />
-      </Routes>
-    </BrowserRouter>
-  </StrictMode>
-);
+//         {/* Admin page (completely separate from main site) */}
+//         <Route path="/admin" element={<AdminDashboard />} />
+//       </Routes>
+//     </BrowserRouter>
+//   </StrictMode>
+// );

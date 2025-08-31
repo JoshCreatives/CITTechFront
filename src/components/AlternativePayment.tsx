@@ -1,5 +1,4 @@
-import React from 'react';
-import { Clock, MapPin, Calendar, Phone, Mail, User } from 'lucide-react';
+import { Clock, MapPin, Calendar, Phone, Mail } from 'lucide-react';
 
 interface OfficeHour {
   facultyName: string;

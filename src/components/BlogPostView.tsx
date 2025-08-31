@@ -1,20 +1,19 @@
-import { useLayoutEffect, useState, useEffect } from 'react';
-import { 
-  Calendar, 
-  User, 
-  ArrowLeft, 
-  Clock, 
-  Share2, 
+import { useLayoutEffect, useState, useEffect } from "react";
+import {
+  Calendar,
+  User,
+  ArrowLeft,
+  Clock,
+  Share2,
   MessageCircle,
   ArrowUp,
   Send,
   Edit3,
-  Trash2
-} from 'lucide-react';
-import { motion } from 'framer-motion';
-import supabaseClient from '../services/supabaseClient';
-import { useTheme } from '../hooks/useTheme';
-import { getDeviceId } from '../utils/deviceFingerprint';
+  Trash2,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import supabaseClient from "../services/supabaseClient";
+import { getDeviceId } from "../utils/deviceFingerprint";
 
 interface BlogPost {
   id: string;
@@ -46,41 +45,42 @@ const BlogPostView = () => {
   const [loading, setLoading] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
-  const [newComment, setNewComment] = useState('');
-  const [commentAuthor, setCommentAuthor] = useState('');
-  const [deviceId, setDeviceId] = useState<string>('');
+  const [newComment, setNewComment] = useState("");
+  const [commentAuthor, setCommentAuthor] = useState("");
+  const [deviceId, setDeviceId] = useState<string>("");
   const [postingComment, setPostingComment] = useState(false);
-  const { theme } = useTheme();
 
-  const postId = typeof window !== 'undefined' ? window.location.pathname.split('/').pop() || '1' : '1';
+  const postId =
+    typeof window !== "undefined"
+      ? window.location.pathname.split("/").pop() || "1"
+      : "1";
 
   // Initialize device ID on component mount
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const id = getDeviceId();
       setDeviceId(id);
     }
   }, []);
 
   const fetchPost = async () => {
-    setLoading(true); 
+    setLoading(true);
     try {
       const { data, error } = await supabaseClient
         .from("blogs")
         .select()
         .eq("id", postId)
         .single();
-      
+
       if (error) {
         console.error("Error fetching post:", error);
         return;
       }
-      
+
       setPost(data);
-      
+
       // Fetch comments for this post
       await fetchComments();
-      
     } catch (error) {
       console.error("Error fetching post:", error);
     } finally {
@@ -93,55 +93,63 @@ const BlogPostView = () => {
     if (deviceId) {
       fetchPost();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceId]);
 
   const fetchComments = async () => {
     try {
       const { data, error } = await supabaseClient
-        .from('blog_comments')
-        .select('*')
-        .eq('blog_id', postId)
-        .order('created_at', { ascending: true });
-      
+        .from("blog_comments")
+        .select("*")
+        .eq("blog_id", postId)
+        .order("created_at", { ascending: true });
+
       if (error) {
-        console.error('Error fetching comments:', error);
+        console.error("Error fetching comments:", error);
         return;
       }
-      
+
       if (data) {
         // Format comments for display
-        const formattedComments = data.map(comment => ({
+        const formattedComments = data.map((comment) => ({
           id: comment.id,
           author: comment.author,
           content: comment.content,
           date: formatDate(comment.created_at),
           likes: comment.likes || 0,
-          avatar: comment.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(comment.author)}&background=random`,
+          avatar:
+            comment.avatar ||
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(
+              comment.author
+            )}&background=random`,
           device_id: comment.device_id,
           canEdit: comment.device_id === deviceId,
           isEditing: false,
-          editContent: comment.content
+          editContent: comment.content,
         }));
-        
+
         setComments(formattedComments);
       }
     } catch (error) {
-      console.error('Error fetching comments:', error);
+      console.error("Error fetching comments:", error);
     }
   };
 
   const formatDate = (dateString: string | undefined) => {
-    if (!dateString) return 'Just now';
-    
+    if (!dateString) return "Just now";
+
     const date = new Date(dateString);
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
-    if (diffInSeconds < 60) return 'Just now';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
-    
+
+    if (diffInSeconds < 60) return "Just now";
+    if (diffInSeconds < 3600)
+      return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds < 604800)
+      return `${Math.floor(diffInSeconds / 86400)} days ago`;
+
     return date.toLocaleDateString();
   };
 
@@ -150,80 +158,89 @@ const BlogPostView = () => {
       try {
         await navigator.share({
           title: post?.title,
-          text: post?.content.substring(0, 100) + '...',
+          text: post?.content.substring(0, 100) + "...",
           url: window.location.href,
         });
       } catch (error) {
-        console.log('Error sharing:', error);
+        console.log("Error sharing:", error);
       }
     } else {
       // Fallback: copy to clipboard
       navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      alert("Link copied to clipboard!");
     }
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newComment.trim() || !commentAuthor.trim() || postingComment) return;
-    
+
     setPostingComment(true);
-    
+
     try {
-      console.log('Attempting to add comment:', { blog_id: postId, author: commentAuthor, content: newComment, device_id: deviceId });
-      
+      console.log("Attempting to add comment:", {
+        blog_id: postId,
+        author: commentAuthor,
+        content: newComment,
+        device_id: deviceId,
+      });
+
       // Insert comment into Supabase - simplified structure
       const { data, error } = await supabaseClient
-        .from('blog_comments')
+        .from("blog_comments")
         .insert({
           blog_id: postId,
           author: commentAuthor,
           content: newComment,
-          device_id: deviceId
+          device_id: deviceId,
         })
         .select();
-      
-      console.log('Insert response:', { data, error });
-      
+
+      console.log("Insert response:", { data, error });
+
       if (error) {
-        console.error('Supabase error adding comment:', error);
-        alert(`Error posting comment: ${error.message}. Please check the console for details.`);
+        console.error("Supabase error adding comment:", error);
+        alert(
+          `Error posting comment: ${error.message}. Please check the console for details.`
+        );
         return;
       }
-      
+
       if (data && data.length > 0) {
         const newCommentObj = data[0];
-        
+
         // Add the new comment to the state
-        setComments(prevComments => [
+        setComments((prevComments) => [
           ...prevComments,
           {
             id: newCommentObj.id,
             author: newCommentObj.author,
             content: newCommentObj.content,
-            date: 'Just now',
+            date: "Just now",
             likes: newCommentObj.likes || 0,
-            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(newCommentObj.author)}&background=random`,
+            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(
+              newCommentObj.author
+            )}&background=random`,
             device_id: newCommentObj.device_id,
             canEdit: newCommentObj.device_id === deviceId,
             isEditing: false,
-            editContent: newCommentObj.content
-          }
+            editContent: newCommentObj.content,
+          },
         ]);
-        
+
         // Clear the form
-        setNewComment('');
-        setCommentAuthor('');
-        
-        console.log('Comment added successfully');
+        setNewComment("");
+        setCommentAuthor("");
+
+        console.log("Comment added successfully");
       }
     } catch (error) {
-      console.error('Unexpected error adding comment:', error);
-      alert('Unexpected error posting comment. Please try again.');
+      console.error("Unexpected error adding comment:", error);
+      alert("Unexpected error posting comment. Please try again.");
     } finally {
       setPostingComment(false);
     }
@@ -233,71 +250,72 @@ const BlogPostView = () => {
     try {
       // Update comment in Supabase (only if device ID matches)
       const { error } = await supabaseClient
-        .from('blog_comments')
-        .update({ 
+        .from("blog_comments")
+        .update({
           content: newContent,
-          updated_at: new Date().toISOString()
+          updated_at: new Date().toISOString(),
         })
-        .eq('id', commentId)
-        .eq('device_id', deviceId); // Ensure only the creating device can edit
-      
+        .eq("id", commentId)
+        .eq("device_id", deviceId); // Ensure only the creating device can edit
+
       if (error) {
-        console.error('Error updating comment:', error);
-        alert('You can only edit your own comments from this device.');
+        console.error("Error updating comment:", error);
+        alert("You can only edit your own comments from this device.");
         return false;
       }
-      
+
       // Update local state
-      setComments(prevComments => 
-        prevComments.map(comment => 
-          comment.id === commentId 
-            ? { 
-                ...comment, 
-                content: newContent, 
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === commentId
+            ? {
+                ...comment,
+                content: newContent,
                 isEditing: false,
-                date: 'Just now (edited)'
+                date: "Just now (edited)",
               }
             : comment
         )
       );
-      
+
       return true;
     } catch (error) {
-      console.error('Error updating comment:', error);
+      console.error("Error updating comment:", error);
       return false;
     }
   };
 
   const handleDeleteComment = async (commentId: string) => {
-    if (!window.confirm('Are you sure you want to delete this comment?')) return;
-    
+    if (!window.confirm("Are you sure you want to delete this comment?"))
+      return;
+
     try {
       // Delete comment from Supabase (only if device ID matches)
       const { error } = await supabaseClient
-        .from('blog_comments')
+        .from("blog_comments")
         .delete()
-        .eq('id', commentId)
-        .eq('device_id', deviceId); // Ensure only the creating device can delete
-      
+        .eq("id", commentId)
+        .eq("device_id", deviceId); // Ensure only the creating device can delete
+
       if (error) {
-        console.error('Error deleting comment:', error);
-        alert('You can only delete your own comments from this device.');
+        console.error("Error deleting comment:", error);
+        alert("You can only delete your own comments from this device.");
         return;
       }
-      
+
       // Update local state
-      setComments(prevComments => 
-        prevComments.filter(comment => comment.id !== commentId)
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment.id !== commentId)
       );
     } catch (error) {
-      console.error('Error deleting comment:', error);
+      console.error("Error deleting comment:", error);
     }
   };
 
   const startEditing = (commentId: string) => {
-    setComments(prevComments => 
-      prevComments.map(comment => 
-        comment.id === commentId 
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment.id === commentId
           ? { ...comment, isEditing: true, editContent: comment.content }
           : comment
       )
@@ -305,19 +323,17 @@ const BlogPostView = () => {
   };
 
   const cancelEditing = (commentId: string) => {
-    setComments(prevComments => 
-      prevComments.map(comment => 
-        comment.id === commentId 
-          ? { ...comment, isEditing: false }
-          : comment
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment.id === commentId ? { ...comment, isEditing: false } : comment
       )
     );
   };
 
   const updateEditContent = (commentId: string, content: string) => {
-    setComments(prevComments => 
-      prevComments.map(comment => 
-        comment.id === commentId 
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment.id === commentId
           ? { ...comment, editContent: content }
           : comment
       )
@@ -325,9 +341,9 @@ const BlogPostView = () => {
   };
 
   const saveEdit = async (commentId: string) => {
-    const comment = comments.find(c => c.id === commentId);
+    const comment = comments.find((c) => c.id === commentId);
     if (!comment || !comment.editContent?.trim()) return;
-    
+
     const success = await handleEditComment(commentId, comment.editContent);
     if (!success) {
       // Reset editing state if update failed
@@ -339,9 +355,9 @@ const BlogPostView = () => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 500);
     };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -350,14 +366,15 @@ const BlogPostView = () => {
         <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
           <div className="flex flex-col items-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maroon-600 dark:border-maroon-400 mb-4"></div>
-            <div className="text-xl text-gray-800 dark:text-gray-200">Fetching post...</div>
+            <div className="text-xl text-gray-800 dark:text-gray-200">
+              Fetching post...
+            </div>
           </div>
         </div>
       ) : (
         <>
           {post ? (
             <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200">
-
               {/* Hero Section */}
               <motion.div
                 initial={{ opacity: 0 }}
@@ -373,7 +390,7 @@ const BlogPostView = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex items-end z-20">
                   <div className="max-w-7xl mx-auto px-4 w-full pb-16">
-                    <motion.div 
+                    <motion.div
                       initial={{ y: 50, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.3, duration: 0.8 }}
@@ -418,9 +435,9 @@ const BlogPostView = () => {
                       <ArrowLeft className="h-4 w-4 mr-2" />
                       Back to Blog
                     </motion.a>
-                    
+
                     <div className="flex items-center gap-3">
-                      <button 
+                      <button
                         onClick={handleShare}
                         className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
                       >
@@ -430,14 +447,16 @@ const BlogPostView = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-8 prose prose-lg max-w-none 
+                  <div
+                    className="space-y-8 prose prose-lg max-w-none 
                     prose-headings:text-gray-900 dark:prose-headings:text-white 
                     prose-p:text-gray-700 dark:prose-p:text-gray-300 
                     prose-a:text-maroon-600 dark:prose-a:text-maroon-400 
                     prose-strong:text-gray-900 dark:prose-strong:text-white 
                     prose-blockquote:border-l-maroon-600 dark:prose-blockquote:border-l-maroon-400 
                     prose-blockquote:bg-gray-50 dark:prose-blockquote:bg-gray-800
-                    prose-img:rounded-xl prose-img:shadow-lg">
+                    prose-img:rounded-xl prose-img:shadow-lg"
+                  >
                     <div dangerouslySetInnerHTML={{ __html: post.content }} />
                   </div>
 
@@ -450,11 +469,13 @@ const BlogPostView = () => {
                           <span>{comments.length} comments</span>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-500 dark:text-gray-400">Share:</span>
+                        <span className="text-sm text-gray-500 dark:text-gray-400">
+                          Share:
+                        </span>
                         <div className="flex gap-2">
-                          <button 
+                          <button
                             onClick={handleShare}
                             className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                           >
@@ -468,12 +489,20 @@ const BlogPostView = () => {
 
                   {/* Comment section */}
                   <div className="mt-12">
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Comments ({comments.length})</h3>
-                    
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                      Comments ({comments.length})
+                    </h3>
+
                     {/* Add comment form */}
-                    <form onSubmit={handleAddComment} className="mb-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <form
+                      onSubmit={handleAddComment}
+                      className="mb-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                    >
                       <div className="mb-4">
-                        <label htmlFor="author" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <label
+                          htmlFor="author"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        >
                           Your Name
                         </label>
                         <input
@@ -488,7 +517,10 @@ const BlogPostView = () => {
                         />
                       </div>
                       <div className="mb-4">
-                        <label htmlFor="comment" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <label
+                          htmlFor="comment"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        >
                           Your Comment
                         </label>
                         <textarea
@@ -520,7 +552,7 @@ const BlogPostView = () => {
                         )}
                       </button>
                     </form>
-                    
+
                     {/* Comments list or empty state */}
                     {comments.length === 0 ? (
                       <div className="text-center py-12 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -535,7 +567,10 @@ const BlogPostView = () => {
                     ) : (
                       <div className="space-y-6">
                         {comments.map((comment) => (
-                          <div key={comment.id} className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                          <div
+                            key={comment.id}
+                            className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                          >
                             <div className="flex items-start gap-4">
                               <img
                                 src={comment.avatar}
@@ -555,14 +590,18 @@ const BlogPostView = () => {
                                       <div className="flex gap-2 ml-2">
                                         {comment.isEditing ? (
                                           <>
-                                            <button 
-                                              onClick={() => saveEdit(comment.id)}
+                                            <button
+                                              onClick={() =>
+                                                saveEdit(comment.id)
+                                              }
                                               className="text-sm text-green-600 dark:text-green-400 hover:underline"
                                             >
                                               Save
                                             </button>
-                                            <button 
-                                              onClick={() => cancelEditing(comment.id)}
+                                            <button
+                                              onClick={() =>
+                                                cancelEditing(comment.id)
+                                              }
                                               className="text-sm text-gray-600 dark:text-gray-400 hover:underline"
                                             >
                                               Cancel
@@ -570,15 +609,19 @@ const BlogPostView = () => {
                                           </>
                                         ) : (
                                           <>
-                                            <button 
-                                              onClick={() => startEditing(comment.id)}
+                                            <button
+                                              onClick={() =>
+                                                startEditing(comment.id)
+                                              }
                                               className="p-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
                                               title="Edit comment"
                                             >
                                               <Edit3 className="h-4 w-4" />
                                             </button>
-                                            <button 
-                                              onClick={() => handleDeleteComment(comment.id)}
+                                            <button
+                                              onClick={() =>
+                                                handleDeleteComment(comment.id)
+                                              }
                                               className="p-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200"
                                               title="Delete comment"
                                             >
@@ -590,12 +633,17 @@ const BlogPostView = () => {
                                     )}
                                   </div>
                                 </div>
-                                
+
                                 {comment.isEditing ? (
                                   <div className="mt-2">
                                     <textarea
-                                      value={comment.editContent || ''}
-                                      onChange={(e) => updateEditContent(comment.id, e.target.value)}
+                                      value={comment.editContent || ""}
+                                      onChange={(e) =>
+                                        updateEditContent(
+                                          comment.id,
+                                          e.target.value
+                                        )
+                                      }
                                       rows={3}
                                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-maroon-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                                     />
@@ -632,10 +680,14 @@ const BlogPostView = () => {
             <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
               <div className="text-center">
                 <div className="text-6xl mb-4">📝</div>
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Post not found</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">The blog post you're looking for doesn't exist.</p>
-                <a 
-                  href="/blog" 
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+                  Post not found
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  The blog post you're looking for doesn't exist.
+                </p>
+                <a
+                  href="/blog"
                   className="inline-flex items-center text-maroon-600 dark:text-white hover:text-maroon-700 dark:hover:text-white"
                 >
                   <ArrowLeft className="h-4 w-4 mr-2" />
@@ -645,7 +697,7 @@ const BlogPostView = () => {
             </div>
           )}
         </>
-      )} 
+      )}
     </>
   );
 };

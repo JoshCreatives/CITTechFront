@@ -147,7 +147,7 @@ const Blog = () => {
         <div className="relative h-96 flex justify-center items-center">
           {blogPosts.map((post, index) => (
             <div
-              key={post.id}
+              key={index}
               className={`absolute transition-all duration-500 ease-in-out ${
                 index === activeIndex
                   ? 'opacity-100 translate-x-0'

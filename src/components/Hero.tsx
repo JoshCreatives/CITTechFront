@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const Hero = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [animationComplete, setAnimationComplete] = useState(false);
-  const nextSectionRef = useRef(null);
+  const nextSectionRef = useRef<any>(null);
 
   // Preload the image for faster loading
   useEffect(() => {
@@ -14,8 +14,8 @@ const Hero = () => {
   }, []);
 
   const handleScrollToNext = () => {
-    if (nextSectionRef.current) {
-      nextSectionRef.current.scrollIntoView({ 
+    if (nextSectionRef?.current) {
+      nextSectionRef?.current?.scrollIntoView({ 
         behavior: 'smooth',
         block: 'start'
       });

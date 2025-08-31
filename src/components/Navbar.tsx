@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Menu, X, Search, Sun, Moon } from 'lucide-react';
-import { Link } from 'react-router-dom';
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, Menu, X, Search, Sun, Moon } from "lucide-react";
+import Link from "next/link";
 
 interface NavItem {
   title: string;
@@ -10,53 +12,53 @@ interface NavItem {
 }
 
 interface NavbarProps {
-  theme: 'light' | 'dark';
+  theme: "light" | "dark";
   toggleTheme: () => void;
 }
 
 const navItems: NavItem[] = [
   {
-    title: 'Faculty',
+    title: "Faculty",
     dropdownItems: [
-      { title: 'Faculty Directory', path: '/Faculty/directory' },
-      { title: 'Faculty Achievements', path: '/Faculty/achievements' },
-      { title: 'Office hours', path: '/Faculty/hours' },
-      { title: 'Courses Handled', path: '/Faculty/course' },
+      { title: "Faculty Directory", path: "/faculty/directory" },
+      { title: "Faculty Achievements", path: "/faculty/achievements" },
+      { title: "Office hours", path: "/faculty/hours" },
+      { title: "Courses Handled", path: "/faculty/course" },
     ],
   },
   {
-    title: 'Students',
+    title: "Students",
     dropdownItems: [
-      { title: 'Class Schedules', path: '/sched/classsched' },
-      { title: 'Enrollment Guidelines', path: '/student/enrollment' },
-      { title: 'Student Handbook', path: '/student/handbook' },
-      { title: 'Downloadables', path: '/student/files' },
+      { title: "Class Schedules", path: "/sched/classsched" },
+      { title: "Enrollment Guidelines", path: "/student/enrollment" },
+      { title: "Student Handbook", path: "/student/handbook" },
+      { title: "Downloadables", path: "/student/files" },
     ],
   },
   {
-    title: 'CIT life',
-    path: '/campus-life',
+    title: "CIT life",
+    path: "/campus-life",
   },
   {
-    title: 'CIT Lounge',
-    path: '/blog',
+    title: "CIT Lounge",
+    path: "/blog",
   },
   {
-    title: 'Alumni',
+    title: "Alumni",
     dropdownItems: [
-      { title: 'Alumni Stories', path: '/alumni/stories' },
-      { title: 'SIIT Alumni Association', path: '/alumni/association' },
+      { title: "Alumni Stories", path: "/alumni/stories" },
+      { title: "SIIT Alumni Association", path: "/alumni/association" },
     ],
   },
   {
-    title: 'About CIT',
+    title: "About CIT",
     dropdownItems: [
-      { title: 'History', path: '/about/history' },
-      { title: 'CIT Achievements', path: '/about/citachievements' },
-      { title: 'IT Exhibits', path: '/about/exibits' },
-      { title: 'Capstone Projects', path: '/about/capstone' },
-      { title: 'Facilities and labs', path: '/about/facilabs' },
-      { title: 'Mission & Vision', path: '/about/mission' },
+      { title: "History", path: "/about/history" },
+      { title: "CIT Achievements", path: "/about/citachievements" },
+      { title: "IT Exhibits", path: "/about/exibits" },
+      { title: "Capstone Projects", path: "/about/capstone" },
+      { title: "Facilities and labs", path: "/about/facilabs" },
+      { title: "Mission & Vision", path: "/about/mission" },
     ],
   },
 ];
@@ -73,7 +75,9 @@ const searchData = [
 
 const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [mobileActiveDropdown, setMobileActiveDropdown] = useState<string | null>(null);
+  const [mobileActiveDropdown, setMobileActiveDropdown] = useState<
+    string | null
+  >(null);
   const [isSticky, setIsSticky] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -81,23 +85,27 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
-  const dropdownRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
+  const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       // Close dropdowns if clicked outside
-      if (activeDropdown && 
-          dropdownRefs.current[activeDropdown] && 
-          !dropdownRefs.current[activeDropdown]?.contains(e.target as Node)) {
+      if (
+        activeDropdown &&
+        dropdownRefs.current[activeDropdown] &&
+        !dropdownRefs.current[activeDropdown]?.contains(e.target as Node)
+      ) {
         setActiveDropdown(null);
       }
-      
+
       // Close search if clicked outside of search container and not on the search button
-      if (showSearch && 
-          searchContainerRef.current && 
-          !searchContainerRef.current.contains(e.target as Node) &&
-          searchButtonRef.current &&
-          !searchButtonRef.current.contains(e.target as Node)) {
+      if (
+        showSearch &&
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(e.target as Node) &&
+        searchButtonRef.current &&
+        !searchButtonRef.current.contains(e.target as Node)
+      ) {
         setShowSearch(false);
         setSearchTerm("");
       }
@@ -112,15 +120,15 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
       setIsSticky(window.scrollY > 0);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     setSearchResults(
-      searchTerm.trim() === "" 
-        ? [] 
-        : searchData.filter(item =>
+      searchTerm.trim() === ""
+        ? []
+        : searchData.filter((item) =>
             item.title.toLowerCase().includes(searchTerm.toLowerCase())
           )
     );
@@ -150,27 +158,27 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isSticky
-          ? theme === 'light'
-            ? 'bg-white text-black shadow-md'
-            : 'bg-gray-800 text-white shadow-md'
-          : theme === 'light'
-            ? 'bg-white text-black'
-            : 'bg-gray-800 text-white'
+          ? theme === "light"
+            ? "bg-white text-black shadow-md"
+            : "bg-gray-800 text-white shadow-md"
+          : theme === "light"
+          ? "bg-white text-black"
+          : "bg-gray-800 text-white"
       }`}
       style={{
-        backdropFilter: isSticky ? 'blur(16px)' : undefined,
-        WebkitBackdropFilter: isSticky ? 'blur(16px)' : undefined,
+        backdropFilter: isSticky ? "blur(16px)" : undefined,
+        WebkitBackdropFilter: isSticky ? "blur(16px)" : undefined,
         backgroundColor: isSticky
-          ? theme === 'light'
-            ? 'rgba(255,255,255,0.95)'
-            : 'rgba(31,41,55,0.95)'
-          : theme === 'light'
-            ? '#fff'
-            : '#1f2937',
+          ? theme === "light"
+            ? "rgba(255,255,255,0.95)"
+            : "rgba(31,41,55,0.95)"
+          : theme === "light"
+          ? "#fff"
+          : "#1f2937",
       }}
       initial={{ y: 0 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
@@ -178,7 +186,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
           <div className="flex items-center">
             <div className="relative flex items-center">
               <div className="bg-maroon-700 rounded-lg flex items-center justify-center w-16 h-16 overflow-hidden">
-                <Link to="/">
+                <Link href="/">
                   <img
                     src="/HeroAko.png"
                     alt="SIIT Logo"
@@ -199,32 +207,36 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-4">
             {navItems.map((item) => (
-              <div 
-                key={item.title} 
+              <div
+                key={item.title}
                 className="relative"
-                ref={el => dropdownRefs.current[item.title] = el}
+                ref={(el) => {
+                  dropdownRefs.current[item.title] = el as HTMLDivElement | null;
+                }}
               >
                 {item.dropdownItems ? (
                   <button
                     className={`flex items-center px-3 py-2 text-base font-semibold tracking-wide transition-colors whitespace-nowrap ${
-                      theme === 'light'
-                        ? 'text-black hover:text-maroon-700'
-                        : 'text-white hover:text-gray-300'
+                      theme === "light"
+                        ? "text-black hover:text-maroon-700"
+                        : "text-white hover:text-gray-300"
                     }`}
                     onClick={() => handleDropdownClick(item.title)}
                   >
                     {item.title}
-                    <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${
-                      activeDropdown === item.title ? 'rotate-180' : ''
-                    }`} />
+                    <ChevronDown
+                      className={`ml-1 h-4 w-4 transition-transform ${
+                        activeDropdown === item.title ? "rotate-180" : ""
+                      }`}
+                    />
                   </button>
                 ) : (
                   <a
                     href={item.path}
                     className={`flex items-center px-3 py-2 text-base font-semibold tracking-wide transition-colors whitespace-nowrap ${
-                      theme === 'light'
-                        ? 'text-black hover:text-maroon-700'
-                        : 'text-white hover:text-gray-300'
+                      theme === "light"
+                        ? "text-black hover:text-maroon-700"
+                        : "text-white hover:text-gray-300"
                     }`}
                   >
                     {item.title}
@@ -235,23 +247,23 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                   {item.dropdownItems && activeDropdown === item.title && (
                     <motion.div
                       className={`absolute z-50 left-0 mt-2 w-56 rounded-md shadow-lg py-1 border ${
-                        theme === 'light'
-                          ? 'bg-white border-gray-200'
-                          : 'bg-gray-900 border-gray-800'
+                        theme === "light"
+                          ? "bg-white border-gray-200"
+                          : "bg-gray-900 border-gray-800"
                       }`}
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2, ease: 'easeInOut' }}
+                      transition={{ duration: 0.2, ease: "easeInOut" }}
                     >
                       {item.dropdownItems.map((dropdownItem) => (
                         <a
                           key={dropdownItem.title}
                           href={dropdownItem.path}
                           className={`block px-4 py-2 text-sm font-medium transition-colors ${
-                            theme === 'light'
-                              ? 'text-black hover:bg-maroon-600 hover:text-white'
-                              : 'text-white hover:bg-gray-900'
+                            theme === "light"
+                              ? "text-black hover:bg-maroon-600 hover:text-white"
+                              : "text-white hover:bg-gray-900"
                           }`}
                         >
                           {dropdownItem.title}
@@ -270,10 +282,16 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
             <button
               onClick={toggleTheme}
               className={`p-2 rounded-md focus:outline-none transition-colors flex items-center justify-center
-                ${theme === 'dark' ? 'hover:bg-white group' : 'hover:bg-maroon-700 group'}`}
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                ${
+                  theme === "dark"
+                    ? "hover:bg-white group"
+                    : "hover:bg-maroon-700 group"
+                }`}
+              aria-label={`Switch to ${
+                theme === "dark" ? "light" : "dark"
+              } mode`}
             >
-              {theme === 'dark' ? (
+              {theme === "dark" ? (
                 <Sun className="h-5 w-5 text-yellow-300 transition-colors duration-200 group-hover:text-black" />
               ) : (
                 <Moon className="h-5 w-5 text-black transition-colors duration-200 group-hover:text-white" />
@@ -285,9 +303,9 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
               ref={searchButtonRef}
               onClick={handleSearchToggle}
               className={`p-2 rounded-md focus:outline-none transition-colors ${
-                showSearch 
-                  ? 'bg-maroon-700 dark:bg-gray-700 text-white' 
-                  : 'hover:bg-maroon-700 dark:hover:bg-gray-700'
+                showSearch
+                  ? "bg-maroon-700 dark:bg-gray-700 text-white"
+                  : "hover:bg-maroon-700 dark:hover:bg-gray-700"
               }`}
               aria-label="Search"
             >
@@ -300,7 +318,11 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
               className="p-2 rounded-md hover:bg-maroon-700 dark:hover:bg-gray-700 focus:outline-none md:hidden transition-colors"
               aria-label="Menu"
             >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </button>
           </div>
         </div>
@@ -355,9 +377,9 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
             <motion.div
               className="md:hidden bg-white dark:bg-gray-800"
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               <div className="px-4 py-3 space-y-0">
                 {navItems.map((item, index) => (
@@ -366,16 +388,18 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                       <div>
                         <button
                           className={`w-full flex justify-between items-center px-3 py-4 text-sm font-semibold transition-colors rounded-md ${
-                            theme === 'light'
-                              ? 'text-black hover:bg-maroon-600 hover:text-white'
-                              : 'text-white hover:bg-gray-900'
+                            theme === "light"
+                              ? "text-black hover:bg-maroon-600 hover:text-white"
+                              : "text-white hover:bg-gray-900"
                           }`}
                           onClick={() => toggleMobileDropdown(item.title)}
                         >
                           {item.title}
                           <ChevronDown
                             className={`h-4 w-4 transition-transform ${
-                              mobileActiveDropdown === item.title ? 'rotate-180' : ''
+                              mobileActiveDropdown === item.title
+                                ? "rotate-180"
+                                : ""
                             }`}
                           />
                         </button>
@@ -383,7 +407,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                           {mobileActiveDropdown === item.title && (
                             <motion.div
                               initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
+                              animate={{ opacity: 1, height: "auto" }}
                               exit={{ opacity: 0, height: 0 }}
                               transition={{ duration: 0.2 }}
                               className="ml-4 mt-1 space-y-1"
@@ -393,9 +417,9 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                                   key={dropdownItem.title}
                                   href={dropdownItem.path}
                                   className={`block px-3 py-2 text-sm font-medium transition-colors rounded-md ${
-                                    theme === 'light'
-                                      ? 'text-black hover:bg-maroon-600 hover:text-white'
-                                      : 'text-white hover:bg-gray-900'
+                                    theme === "light"
+                                      ? "text-black hover:bg-maroon-600 hover:text-white"
+                                      : "text-white hover:bg-gray-900"
                                   }`}
                                   onClick={() => setIsMobileMenuOpen(false)}
                                 >
@@ -410,19 +434,25 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
                       <a
                         href={item.path}
                         className={`block px-3 py-4 text-sm font-semibold transition-colors rounded-md ${
-                          theme === 'light'
-                            ? 'text-black hover:bg-maroon-600 hover:text-white'
-                            : 'text-white hover:bg-gray-900'
+                          theme === "light"
+                            ? "text-black hover:bg-maroon-600 hover:text-white"
+                            : "text-white hover:bg-gray-900"
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {item.title}
                       </a>
                     )}
-                    
+
                     {/* Add divider line after each item except the last one */}
                     {index < navItems.length - 1 && (
-                      <hr className={`my-1 ${theme === 'light' ? 'border-gray-200' : 'border-gray-700/50'}`} />
+                      <hr
+                        className={`my-1 ${
+                          theme === "light"
+                            ? "border-gray-200"
+                            : "border-gray-700/50"
+                        }`}
+                      />
                     )}
                   </div>
                 ))}
