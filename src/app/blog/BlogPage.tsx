@@ -1,6 +1,6 @@
 "use client";
-import { useLayoutEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useLayoutEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar,
   User,
@@ -23,11 +23,48 @@ const categories = [
   "Campus Updates",
 ];
 
+// Animation variants for cleaner code
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
 const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [blogsList, setBlogsList] = useState<any>([]);
   const [featuredBlogPost, setFeaturedBlogPost] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const heroRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     fetchBlogs();
@@ -51,6 +88,7 @@ const BlogPage = () => {
 
   const fetchBlogs = async () => {
     try {
+      setIsLoading(true);
       console.log("Fetching blogs...");
       const blogsResponse = await supabaseClient.from("blogs").select().order('created_at', { ascending: false });
       
@@ -73,6 +111,8 @@ const BlogPage = () => {
       console.log("Blogs fetched successfully:", blogsResponse.data?.length);
     } catch (error) {
       console.error("Error in fetchBlogs:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -106,22 +146,50 @@ const BlogPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-      {/* Hero Section */}
-      <div className="relative h-[400px]">
-        <img
-          src="/Hero1.jpg"
-          alt="CIT Blog"
-          className="w-full h-full object-cover"
-        />
+      {/* Hero Section with Zoom Effect */}
+      <div ref={heroRef} className="relative h-[400px] overflow-hidden">
+        <motion.div
+          initial={{ scale: 1.2 }}
+          animate={{ scale: 1 }}
+          transition={{ 
+            duration: 1.5, 
+            ease: "easeOut",
+            delay: 0.2
+          }}
+          className="w-full h-full"
+        >
+          <img
+            src="/Hero1.jpg"
+            alt="CIT Blog"
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-900/75 dark:from-gray-900/90 dark:to-gray-900/60 flex items-center">
           <div className="max-w-7xl mx-auto px-4 w-full">
             <div className="max-w-2xl">
-              <h1 className="text-5xl font-bold text-white mb-6">CIT Blog</h1>
-              <p className="text-xl text-white/90 mb-8">
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.5 }}
+                className="text-5xl font-bold text-white mb-6"
+              >
+                CIT Blog
+              </motion.h1>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.7 }}
+                className="text-xl text-white/90 mb-8"
+              >
                 Stay updated with the latest news, events, and stories from our
                 vibrant academic community.
-              </p>
-              <div className="relative">
+              </motion.p>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.9 }}
+                className="relative"
+              >
                 <Search className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
@@ -130,7 +198,7 @@ const BlogPage = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-4 py-3 rounded-full bg-white/10 dark:bg-gray-800/80 border border-white/20 dark:border-gray-700 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
                 />
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -138,10 +206,10 @@ const BlogPage = () => {
 
       {/* Quick Stats */}
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
+        variants={containerVariants}
         className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700"
       >
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -149,10 +217,7 @@ const BlogPage = () => {
             {highlights.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
+                variants={itemVariants}
                 className="flex items-center gap-4"
               >
                 <div className="bg-maroon-600 p-3 rounded-full text-white">
@@ -173,15 +238,16 @@ const BlogPage = () => {
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Categories */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
+          variants={containerVariants}
           className="flex flex-wrap gap-2 mb-8"
         >
           {categories.map((category) => (
             <motion.button
               key={category}
+              variants={itemVariants}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(category)}
@@ -196,135 +262,153 @@ const BlogPage = () => {
           ))}
         </motion.div>
 
-        {/* Featured Post */}
-        {featuredBlogPost && (
-          <motion.div
-            key={featuredBlogPost.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-12 border border-gray-200 dark:border-gray-700"
+        {/* Loading State */}
+        {isLoading && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex justify-center items-center h-64"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="relative h-64 md:h-auto">
-                <img
-                  src={featuredBlogPost.image_url || "/default-blog.jpg"}
-                  alt={featuredBlogPost.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-maroon-600 text-white px-3 py-1 rounded-full text-sm">
-                    Featured
-                  </span>
-                </div>
-              </div>
-              <div className="p-8">
-                <span className="inline-block bg-maroon-600 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">
-                  {featuredBlogPost.category || "General"}
-                </span>
-                <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-                  <a
-                    href={`/blog/view?id=${featuredBlogPost.id}`}
-                    className="hover:text-maroon-600 dark:hover:text-maroon-500 transition-colors"
-                  >
-                    {featuredBlogPost.title}
-                  </a>
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  {featuredBlogPost.excerpt || featuredBlogPost.content?.substring(0, 150) + '...'}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <User className="h-4 w-4 mr-1" />
-                    <span className="mr-4">{featuredBlogPost.author || "Admin"}</span>
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span>
-                      {moment(featuredBlogPost.created_at).format(
-                        "MMMM Do YYYY"
-                      )}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-maroon-600"></div>
           </motion.div>
         )}
 
-        {/* Blog Posts Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {filteredPosts.map((post, index) => (
+        {/* Featured Post */}
+        <AnimatePresence mode="wait">
+          {!isLoading && featuredBlogPost && (
             <motion.div
-              key={post.id}
+              key={featuredBlogPost.id}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-12 border border-gray-200 dark:border-gray-700"
             >
-              <div className="relative h-48">
-                <img
-                  src={post.image_url || "/default-blog.jpg"}
-                  alt={post.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-maroon-600 text-white px-3 py-1 rounded-full text-sm">
-                    {post.category || "General"}
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="relative h-64 md:h-auto">
+                  <img
+                    src={featuredBlogPost.image_url || "/default-blog.jpg"}
+                    alt={featuredBlogPost.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-maroon-600 text-white px-3 py-1 rounded-full text-sm">
+                      Featured
+                    </span>
+                  </div>
+                </div>
+                <div className="p-8">
+                  <span className="inline-block bg-maroon-600 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">
+                    {featuredBlogPost.category || "General"}
                   </span>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-maroon-600 dark:hover:text-maroon-500 transition-colors">
-                  <a href={`/blog/view?id=${post.id}`}>{post.title}</a>
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  {post.excerpt || post.content?.substring(0, 100) + '...'}
-                </p>
-                <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center">
-                    <User className="h-4 w-4 mr-1" />
-                    {post.author || "Admin"}
+                  <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                    <a
+                      href={`/blog/${featuredBlogPost.id}`}
+                      className="hover:text-maroon-600 dark:hover:text-maroon-500 transition-colors"
+                    >
+                      {featuredBlogPost.title}
+                    </a>
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                    {featuredBlogPost.excerpt || featuredBlogPost.content?.substring(0, 150) + '...'}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                      <User className="h-4 w-4 mr-1" />
+                      <span className="mr-4">{featuredBlogPost.author || "Admin"}</span>
+                      <Calendar className="h-4 w-4 mr-1" />
+                      <span>
+                        {moment(featuredBlogPost.created_at).format(
+                          "MMMM Do YYYY"
+                        )}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    {moment(post.created_at).format(
-                      "MMMM Do YYYY"
-                    )}
-                  </div>
-                </div>
-                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <a
-                    href={`/blog/view?id=${post.id}`}
-                    className="inline-flex items-center text-maroon-600 dark:text-maroon-500 hover:text-maroon-800 dark:hover:text-maroon-300 font-medium transition-colors"
-                  >
-                    Read More
-                    <ChevronRight className="ml-1 h-4 w-4" />
-                  </a>
                 </div>
               </div>
             </motion.div>
-          ))}
-        </motion.div>
+          )}
+        </AnimatePresence>
 
-        {filteredPosts.length === 0 && (
-          <div className="text-center py-12">
+        {/* Blog Posts Grid */}
+        <AnimatePresence mode="wait">
+          {!isLoading && (
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {filteredPosts.map((post) => (
+                <motion.div
+                  key={post.id}
+                  variants={itemVariants}
+                  layout
+                  className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700"
+                >
+                  <div className="relative h-48">
+                    <img
+                      src={post.image_url || "/default-blog.jpg"}
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-maroon-600 text-white px-3 py-1 rounded-full text-sm">
+                        {post.category || "General"}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-maroon-600 dark:hover:text-maroon-500 transition-colors">
+                      <a href={`/blog/${post.id}`}>{post.title}</a>
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-4">
+                      {post.excerpt || post.content?.substring(0, 100) + '...'}
+                    </p>
+                    <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center">
+                        <User className="h-4 w-4 mr-1" />
+                        {post.author || "Admin"}
+                      </div>
+                      <div className="flex items-center">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        {moment(post.created_at).format(
+                          "MMMM Do YYYY"
+                        )}
+                      </div>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <a
+                        href={`/blog/${post.id}`}
+                        className="inline-flex items-center text-maroon-600 dark:text-maroon-500 hover:text-maroon-800 dark:hover:text-maroon-300 font-medium transition-colors"
+                      >
+                        Read More
+                        <ChevronRight className="ml-1 h-4 w-4" />
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {!isLoading && filteredPosts.length === 0 && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-center py-12"
+          >
             <p className="text-gray-500 dark:text-gray-400">No blog posts found.</p>
-          </div>
+          </motion.div>
         )}
 
         {/* Newsletter Subscription */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={fadeIn}
           className="mt-16 bg-maroon-600 rounded-lg shadow-lg p-8 text-white"
         >
           <div className="max-w-2xl mx-auto text-center">

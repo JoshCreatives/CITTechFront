@@ -46,7 +46,7 @@ const navItems: NavItem[] = [
   {
     title: "Alumni",
     dropdownItems: [
-      { title: "Alumni Stories", path: "/alumni/stories" },
+      // { title: "Alumni Stories", path: "/alumni/stories" },
       { title: "SIIT Alumni Association", path: "/alumni/association" },
     ],
   },
@@ -69,7 +69,7 @@ const searchData = [
   { title: "CIT life", path: "/campus-life" },
   { title: "Enrollment", path: "/student/enrollment" },
   { title: "Alumni Homecoming", path: "/events/alumni-homecoming" },
-  { title: "President's Message", path: "/about/president" },
+  { title: "Deans Message", path: "/about/president" },
   { title: "Campus Safety", path: "/about/safety" },
 ];
 

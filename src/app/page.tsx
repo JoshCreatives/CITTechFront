@@ -37,7 +37,7 @@ function App() {
     // Maximum loading time (2 seconds)
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 4000);
 
     return () => {
       clearTimeout(animationTimer);
