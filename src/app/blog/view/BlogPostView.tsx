@@ -16,7 +16,7 @@ import {
 import { motion } from "framer-motion";
 import supabaseClient from "../../../services/supabaseClient";
 import { getDeviceId } from "../../../utils/deviceFingerprint";
-import { useParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 interface BlogPost {
   id: string;
@@ -52,9 +52,9 @@ const BlogPostView = () => {
   const [commentAuthor, setCommentAuthor] = useState("");
   const [deviceId, setDeviceId] = useState<string>("");
   const [postingComment, setPostingComment] = useState(false);
-  const param = useParams();
+  const searchParams = useSearchParams();
 
-  const postId = param?.id;
+  const postId = searchParams.get("id");
 
   // Initialize device ID on component mount
   useEffect(() => {

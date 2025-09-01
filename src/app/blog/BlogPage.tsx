@@ -225,7 +225,7 @@ const BlogPage = () => {
                 </span>
                 <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
                   <a
-                    href={`/blog/${featuredBlogPost.id}`}
+                    href={`/blog/view?id=${featuredBlogPost.id}`}
                     className="hover:text-maroon-600 dark:hover:text-maroon-500 transition-colors"
                   >
                     {featuredBlogPost.title}
@@ -282,7 +282,7 @@ const BlogPage = () => {
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-maroon-600 dark:hover:text-maroon-500 transition-colors">
-                  <a href={`/blog/${post.id}`}>{post.title}</a>
+                  <a href={`/blog/view?id=${post.id}`}>{post.title}</a>
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
                   {post.excerpt || post.content?.substring(0, 100) + '...'}
@@ -301,7 +301,7 @@ const BlogPage = () => {
                 </div>
                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                   <a
-                    href={`/blog/${post.id}`}
+                    href={`/blog/view?id=${post.id}`}
                     className="inline-flex items-center text-maroon-600 dark:text-maroon-500 hover:text-maroon-800 dark:hover:text-maroon-300 font-medium transition-colors"
                   >
                     Read More

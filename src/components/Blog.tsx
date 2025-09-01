@@ -67,7 +67,7 @@ const BlogCard = ({ post, isActive }: BlogCardProps) => {
 
       <div className="p-6">
         <h3 className="text-xl font-bold mb-3 text-gray-800 dark:text-gray-200 hover:text-green-500 dark:hover:text-green-400 transition-colors">
-          <a href={`/blog/${post.id}`}>
+          <a href={`/blog/view?id=${post.id}`}>
             {post.title}
           </a>
         </h3>
