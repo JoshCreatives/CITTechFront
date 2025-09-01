@@ -18,6 +18,7 @@ import supabaseClient from "../../../services/supabaseClient";
 interface ClassSession {
   id: string;
   student_id: string;
+  student_number: string;
   course_code: string;
   course_name: string;
   instructor: string;
@@ -41,7 +42,7 @@ interface ClassSession {
 }
 
 export default function ClassSchedules() {
-  const [studentId, setStudentId] = useState("");
+  const [studentNumber, setStudentNumber] = useState("");
   const [showStudentSchedule, setShowStudentSchedule] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false);
@@ -57,7 +58,7 @@ export default function ClassSchedules() {
   const [loaded, setLoaded] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [studentEmail, setStudentEmail] = useState<string>("");
-  const [studentName, setStudentName] = useState<string>("");
+  const [, setStudentName] = useState<string>("");
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 100);
@@ -139,7 +140,7 @@ export default function ClassSchedules() {
         heightLeft -= pageHeight;
       }
 
-      pdf.save(`class-schedule-${studentId}.pdf`);
+      pdf.save(`class-schedule-${studentNumber}.pdf`);
     } catch (error) {
       console.error("PDF export error:", error);
       alert("Failed to export PDF. Please try again.");
@@ -157,7 +158,7 @@ export default function ClassSchedules() {
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Class Schedule - ${studentId}</title>
+          <title>Class Schedule - ${studentNumber}</title>
           <style>
             body { font-family: Arial, sans-serif; margin: 20px; }
             .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #800000; padding-bottom: 20px; }
@@ -176,7 +177,7 @@ export default function ClassSchedules() {
         <body>
           <div class="header">
             <h1>Class Schedule</h1>
-            <h2>Student ID: ${studentId}</h2>
+            <h2>Student ID: ${studentNumber}</h2>
             <p>Generated on: ${new Date().toLocaleDateString()}</p>
           </div>
           <div class="schedule-grid">
@@ -266,7 +267,7 @@ export default function ClassSchedules() {
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
     link.setAttribute("href", url);
-    link.setAttribute("download", `class-schedule-${studentId}.csv`);
+    link.setAttribute("download", `class-schedule-${studentNumber}.csv`);
     link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
@@ -293,7 +294,7 @@ export default function ClassSchedules() {
   };
 
   const handleStudentIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStudentId(e.target.value);
+    setStudentNumber(e.target.value);
     resetVerificationState();
   };
 
@@ -314,7 +315,7 @@ export default function ClassSchedules() {
       setIsLoading(true);
       setCodeError("");
       // Lookup student in Supabase
-      const student = await fetchStudentById(studentId);
+      const student = await fetchStudentById(studentNumber);
       if (!student) {
         alert("Student not found. Please contact the registrar.");
         return;
@@ -326,6 +327,7 @@ export default function ClassSchedules() {
 
       setStudentEmail(student?.email);
       setStudentName(student?.name || "");
+      setStudentNumber(student?.student_number || "");
 
       console.log("Sending verification code to:", student.email);
       console.log("Current state - showSuccessModal:", showSuccessModal);
@@ -395,15 +397,11 @@ export default function ClassSchedules() {
       const result = await response.json();
       console.log("result", result);
 
-      // Simulate successful verification
-      const data = { studentId: studentId }; // Mock data
-
-      console.log("Verification success data:", data);
-
       setIsEmailVerified(true);
       setShowStudentSchedule(true);
+      console.log("classSchedules...", classSchedules);
       setFilteredSchedules(
-        classSchedules.filter((s) => s.student_id === studentId)
+        classSchedules.filter((s) => s.student_number === studentNumber)
       );
       setSuccessMessage(
         "Verification successful! Welcome to your class schedule."
@@ -575,14 +573,15 @@ export default function ClassSchedules() {
             <motion.input
               whileFocus={{ scale: 1.02 }}
               type="text"
+              // no, this is actually student number
               placeholder="Enter Student ID"
-              value={studentId}
+              value={studentNumber}
               onChange={handleStudentIdChange}
               className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-white focus:border-transparent flex-grow transition-colors"
               disabled={isLoading}
             />
 
-            {studentId && !verificationSent && (
+            {studentNumber && !verificationSent && (
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
